@@ -1,0 +1,12 @@
+i need to implement to following concepts:
+1) middlewares
+2) Error middleware
+3) server-side validations (use Express-validator)
+4) Dto ?
+5) doenv (for .env) ✅
+6) REST Apis
+7) server side 3 layer architecture
+8) Inversify ( dependancy injection ) 
+
+9) ( Optional ) use mongoDB if i have extra will power
+
