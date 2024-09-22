@@ -10,3 +10,7 @@ i need to implement to following concepts:
 
 9) ( Optional ) use mongoDB if i have extra will power
 
+** 23/09 :
+a) make the CRUD work upon http requests (post == add | delete = remove |put = update)
+b) give parameters to the URLs and make the crud work with them
+c) apply last concepts like Dto, Inversify and so on...
