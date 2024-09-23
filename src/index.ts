@@ -12,7 +12,6 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use("/movies", moviesRouter);
 app.use("/directors", directorsRouter);
-// error middleware
 app.use(errorHandler);
 
 app.get("/", (req, res) => {

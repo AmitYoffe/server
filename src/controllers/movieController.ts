@@ -1,6 +1,9 @@
 import { Request, Response, Router } from "express";
-import { movieCreationValidator } from "../middlewares/moviesValidator";
+import { checkSchema, validationResult } from "express-validator";
+import validationErrorHandler from "../middlewares/validationErrorHandler";
 import * as MovieService from "../services/movieServices";
+import { movieBaseValidator } from "../validations/movies/baseMovie";
+import { movieEditValidator } from "../validations/movies/editMovie";
 
 export const moviesRouter = Router();
 
@@ -12,15 +15,34 @@ moviesRouter.get("/", async (req: Request, res: Response) => {
 
 moviesRouter.post(
   "/",
-  // movieCreationValidator,
+  checkSchema(movieBaseValidator),
   async (req: Request, res: Response) => {
-    const movie = await MovieService.createMovie(req.body);
-    res.status(201).json(movie);
+    const errors = validationResult(req);
+    validationErrorHandler(errors, res);
+
+    try {
+      const movie = await MovieService.createMovie(req.body);
+      res.status(201).json(movie);
+    } catch (error) {
+      res.status(500).json({ error: "Internal server error" });
+    }
   }
 );
 
-moviesRouter.put("/", async (req: Request, res: Response) => {
-  const updatedMovieId = Number(req.query.id);
-  const movie = await MovieService.editMovie(req.body, updatedMovieId);
-  res.status(201).json(movie);
-});
+moviesRouter.put(
+  "/",
+  checkSchema(movieEditValidator),
+  async (req: Request, res: Response) => {
+    const errors = validationResult(req);
+    validationErrorHandler(errors, res);
+
+    const updatedMovieId = Number(req.query.id);
+
+    try {
+      const movie = await MovieService.editMovie(req.body, updatedMovieId);
+      res.status(201).json(movie);
+    } catch (error) {
+      res.status(500).json({ error: "Internal server error" });
+    }
+  }
+);
