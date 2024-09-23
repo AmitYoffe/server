@@ -9,15 +9,24 @@ export function getAll(): Director[] {
   return JSON.parse(directors);
 }
 
-export function create(director: Director): Director {
+export function create(directorInfo: Director): Director {
   const directors = getAll();
-  directors.push(director);
+  let newId = 1;
+  for (const existingDirector of directors) {
+    if (existingDirector.id >= newId) {
+      newId = existingDirector.id + 1;
+    }
+  }
+
+  const newDirector = { ...directorInfo, id: newId };
+  directors.push(newDirector);
   fs.writeFileSync(
     directorsFilePath,
     JSON.stringify(directors, null, 2),
     "utf-8"
   );
-  return director;
+  
+  return newDirector;
 }
 
 export function edit(updatedDirector: Director): Director {

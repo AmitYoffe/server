@@ -20,12 +20,8 @@ moviesRouter.post(
     const errors = validationResult(req);
     validationErrorHandler(errors, res);
 
-    try {
-      const movie = await MovieService.createMovie(req.body);
-      res.status(201).json(movie);
-    } catch (error) {
-      res.status(500).json({ error: "Internal server error" });
-    }
+    const movie = await MovieService.createMovie(req.body);
+    res.status(201).json(movie);
   }
 );
 
@@ -37,12 +33,7 @@ moviesRouter.put(
     validationErrorHandler(errors, res);
 
     const updatedMovieId = Number(req.query.id);
-
-    try {
-      const movie = await MovieService.editMovie(req.body, updatedMovieId);
-      res.status(201).json(movie);
-    } catch (error) {
-      res.status(500).json({ error: "Internal server error" });
-    }
+    const movie = await MovieService.editMovie(req.body, updatedMovieId);
+    res.status(201).json(movie);
   }
 );

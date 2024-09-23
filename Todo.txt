@@ -9,8 +9,6 @@ i need to implement to following concepts:
 8) Inversify ( dependancy injection ) ⛔
 9) use mongoDB if i have extra will power ( Optional ) ⛔
 
-
-
 25/09-TODO :
 1) apply the same rules and logic of movies to directors
 2) apply last concepts like Dto, Inversify and so on...
