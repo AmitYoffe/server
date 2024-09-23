@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import express from "express";
-import { moviesRouter } from "./controllers/movieController";
 import { directorsRouter } from "./controllers/directorController";
+import { moviesRouter } from "./controllers/movieController";
 import errorHandler from "./middlewares/error";
 
 dotenv.config();

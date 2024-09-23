@@ -1,16 +1,31 @@
 i need to implement to following concepts:
-1) middlewares
-2) Error middleware
-3) server-side validations (use Express-validator)
-4) Dto ?
+1) middlewares ✅
+2) Error middleware ✅
+3) server-side validations (use Express-validator) ✅
+4) server side 3 layer architecture ✅ 
 5) doenv (for .env) ✅
 6) REST Apis
-7) server side 3 layer architecture ✅
+7) Dto ?
 8) Inversify ( dependancy injection ) 
 
 9) ( Optional ) use mongoDB if i have extra will power
 
 Today-TODO :
-b) give parameters to the URLs and make the crud work with them
-c) I have no validation for creating the movies/ directors ! ! !
-d) apply last concepts like Dto, Inversify and so on...
+a) apply the following validations:
+    editing ( PUT ): if id exists, fields are not null, title in english only
+    creating ( POST ): fields are not null
+    displaying ( GET ): none...
+
+d) apply the same rules and logic of movies to directors
+e) apply last concepts like Dto, Inversify and so on...
+
+
+
+
+
+Todo:
+a) On top of the pictures i have in my phone, 
+i need to make an additional page that shows all directors,
+similar to how it shows all movies ( optional ).
+
+b) Finish CRUD for movies and get directors, higher priority. 
