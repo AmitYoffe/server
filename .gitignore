@@ -2,3 +2,6 @@
 .env
 /dist
 dist/index.js
+/database/*
+director.json
+movies.json

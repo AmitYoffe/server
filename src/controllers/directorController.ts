@@ -8,7 +8,12 @@ directorsRouter.get("/", async (req: Request, res: Response) => {
   res.json(directors);
 });
 
-// directorsRouter.post("/", async (req: Request, res: Response) => {
-//   const director = await directorService.createDirector(req.body);
-//   res.status(201).json(director);
-// });
+directorsRouter.post("/", async (req: Request, res: Response) => {
+  const director = await directorService.createDirector(req.body);
+  res.status(201).json(director);
+});
+
+directorsRouter.put("/", async (req: Request, res: Response) => {
+  const director = await directorService.editDirector(req.body);
+  res.status(201).json(director);
+});
