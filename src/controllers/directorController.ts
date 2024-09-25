@@ -27,7 +27,7 @@ directorsRouter.post(
 );
 
 directorsRouter.put(
-  "/",
+  "/:id",
   checkSchema(directorEditValidator),
   async (req: Request, res: Response) => {
     const errors = validationResult(req);
@@ -45,7 +45,7 @@ directorsRouter.put(
     //     });
     // }
 
-    const updatedDirectorId = Number(req.query.id);
+    const updatedDirectorId = Number(req.params.id);
     const director = await directorService.editDirector(
       req.body,
       updatedDirectorId

@@ -8,11 +8,9 @@ import { movieBaseValidator, movieEditValidator } from "../validations/index";
 export const moviesRouter = Router();
 
 moviesRouter.get(
-  "/",
-  // Why don't i need to add the query params here?
-  // "/:query",
+  "/:search?",
   async (req: Request, res: Response) => {
-    const searchQuery = req.query.search as string;
+    const searchQuery = req.params.search as string;
     const movies = await MovieService.getAllMovies(searchQuery);
     res.json(movies);
   }
@@ -32,8 +30,6 @@ moviesRouter.post(
 
 // chnage this to patch and make the modification change certain field and not whole object
 moviesRouter.put(
-  // "/",
-  // Why don't i need to add the id params here?
   "/:id",
   checkSchema(movieEditValidator),
   async (req: Request, res: Response) => {

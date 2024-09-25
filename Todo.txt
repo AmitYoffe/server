@@ -13,8 +13,9 @@ Today-TODO :
 1) apply last concepts like Inversify and so on...
 2) should i make a "routes" folder and decouple the moviesRouter / directorsRouter
 3) Initialize frontend project
-4) make an Enum of the sattus responses, to not make the numbers hard coded
-5) read up on http status numbers
+4) make an Enum of the sattus responses, 
+to not make the numbers hard coded ( use library? )
+5) read up on http status numbers 
 6) create more index.ts file to make smaller imports
 
 Additional mission:
