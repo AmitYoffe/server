@@ -7,8 +7,8 @@ import { directorEditValidator } from "../validations/directors/editDirector";
 
 export const directorsRouter = Router();
 
-directorsRouter.get("/", async (req: Request, res: Response) => {
-  const searchQuery = req.query.search as string;
+directorsRouter.get("/:search?", async (req: Request, res: Response) => {
+  const searchQuery = req.params.search;
   const directors = await directorService.getAllDirectors(searchQuery);
   res.json(directors);
 });

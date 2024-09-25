@@ -10,7 +10,7 @@ export const moviesRouter = Router();
 moviesRouter.get(
   "/:search?",
   async (req: Request, res: Response) => {
-    const searchQuery = req.params.search as string;
+    const searchQuery = req.params.search;
     const movies = await MovieService.getAllMovies(searchQuery);
     res.json(movies);
   }

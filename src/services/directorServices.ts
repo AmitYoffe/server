@@ -20,5 +20,5 @@ export async function editDirector(
 }
 
 // export async function getDirectorById(updatedDirectorId: number) {
-//   throw new Error("Function not implemented.");
+//   throw new Error("Funtcion not implemented.");
 // }
