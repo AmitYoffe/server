@@ -3,18 +3,14 @@ import { checkSchema, validationResult } from "express-validator";
 import validationErrorHandler from "../middlewares/validationErrorHandler";
 import * as MovieService from "../services/movieServices";
 import { movieBaseValidator, movieEditValidator } from "../validations/index";
-// import { movieEditValidator } from "../validations/movies/editMovie";
 
 export const moviesRouter = Router();
 
-moviesRouter.get(
-  "/:search?",
-  async (req: Request, res: Response) => {
-    const searchQuery = req.params.search;
-    const movies = await MovieService.getAllMovies(searchQuery);
-    res.json(movies);
-  }
-);
+moviesRouter.get("/:search?", async (req: Request, res: Response) => {
+  const searchQuery = req.params.search;
+  const movies = await MovieService.getAllMovies(searchQuery);
+  res.json(movies);
+});
 
 moviesRouter.post(
   "/",
@@ -28,7 +24,6 @@ moviesRouter.post(
   }
 );
 
-// chnage this to patch and make the modification change certain field and not whole object
 moviesRouter.patch(
   "/:id",
   checkSchema(movieEditValidator),

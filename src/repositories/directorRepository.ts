@@ -5,7 +5,7 @@ import { Director } from "../models/directorModel";
 
 const directorsFilePath = path.resolve("./database/directors.json");
 
-export function getAll(searchQuery?: string): Director[] {
+export const getAll = (searchQuery?: string): Director[] => {
   const directors = fs.readFileSync(directorsFilePath, "utf-8");
   const directorList = JSON.parse(directors);
 
@@ -18,9 +18,9 @@ export function getAll(searchQuery?: string): Director[] {
   }
 
   return directorList;
-}
+};
 
-export function create(directorInfo: Director): Director {
+export const create = (directorInfo: Director): Director => {
   const directors = getAll();
   let newId = 1;
   for (const existingDirector of directors) {
@@ -38,9 +38,9 @@ export function create(directorInfo: Director): Director {
   );
 
   return newDirector;
-}
+};
 
-export function edit(updatedDirector: DirectorDto, id: number): Director {
+export const edit = (updatedDirector: DirectorDto, id: number): Director => {
   const directors = getAll();
   const directorIndex = directors.findIndex((director) => director.id === id);
   directors[directorIndex] = {
@@ -54,4 +54,4 @@ export function edit(updatedDirector: DirectorDto, id: number): Director {
   );
 
   return directors[directorIndex];
-}
+};
