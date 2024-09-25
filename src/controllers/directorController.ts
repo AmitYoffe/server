@@ -26,9 +26,11 @@ directorsRouter.post(
   }
 );
 
-directorsRouter.put(
+directorsRouter.patch(
   "/:id",
   checkSchema(directorEditValidator),
+  // doesn't fail when there are errors,
+  //  it still edits when body is of wrong schema
   async (req: Request, res: Response) => {
     const errors = validationResult(req);
     validationErrorHandler(errors, res);

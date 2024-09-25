@@ -29,7 +29,7 @@ moviesRouter.post(
 );
 
 // chnage this to patch and make the modification change certain field and not whole object
-moviesRouter.put(
+moviesRouter.patch(
   "/:id",
   checkSchema(movieEditValidator),
   async (req: Request, res: Response) => {
