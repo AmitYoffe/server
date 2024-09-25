@@ -25,5 +25,4 @@ export const movieBaseValidator = {
   },
 };
 
-// add type ?
-// :Omit<Movie, "id">
+// add type ? movieDto?

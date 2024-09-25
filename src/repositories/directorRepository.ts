@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+import { directorDto } from "../dtos/directorDto";
 import { Director } from "../models/directorModel";
 
 const directorsFilePath = path.resolve("./database/directors.json");
@@ -39,10 +40,7 @@ export function create(directorInfo: Director): Director {
   return newDirector;
 }
 
-export function edit(
-  updatedDirector: Omit<Director, "id">,
-  id: number
-): Director {
+export function edit(updatedDirector: directorDto, id: number): Director {
   const directors = getAll();
   const directorIndex = directors.findIndex((director) => director.id === id);
   directors[directorIndex] = {

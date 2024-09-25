@@ -5,12 +5,12 @@ i need to implement to following concepts:
 4) server side 3 layer architecture ✅ 
 5) doenv (for .env) ✅
 6) REST Apis ✅
-7) Dto ? ⛔
+7) Dto ? ✅
 8) Inversify ( dependancy injection ) ⛔
 9) use mongoDB if i have extra will power ( Optional ) ⛔
 
 Today-TODO :
-1) apply last concepts like Dto, Inversify and so on...
+1) apply last concepts like Inversify and so on...
 2) Initialize frontend project
 
 Additional mission:
