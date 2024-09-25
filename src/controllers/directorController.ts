@@ -29,29 +29,26 @@ directorsRouter.post(
 directorsRouter.patch(
   "/:id",
   checkSchema(directorEditValidator),
-  // doesn't fail when there are errors,
-  //  it still edits when body is of wrong schema
   async (req: Request, res: Response) => {
     const errors = validationResult(req);
     validationErrorHandler(errors, res);
 
-    // const existingDirector = await directorService.getDirectorById(
-    //   updatedDirectorId
-    // );
-
-    // if (!existingDirector) {
-    //   return res
-    //     .status(404)
-    //     .json({
-    //       message: `Director with id of ${updatedDirectorId} not found`,
-    //     });
-    // }
-
+    const directorsIdArr = await directorService.getDirectorIds();
     const updatedDirectorId = Number(req.params.id);
-    const director = await directorService.editDirector(
-      req.body,
-      updatedDirectorId
-    );
-    res.status(201).json(director);
+
+    // make this into a reusable middleware!
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ message: `Errors: ${errors.array()}` });
+    } else if (!directorsIdArr.includes(updatedDirectorId)) {
+      return res.status(404).json({
+        message: `Director with id of ${updatedDirectorId} not found`,
+      });
+    } else {
+      const director = await directorService.editDirector(
+        req.body,
+        updatedDirectorId
+      );
+      res.status(201).json(director); 
+    }
   }
 );

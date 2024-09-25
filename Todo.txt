@@ -16,6 +16,8 @@ Today-TODO :
 to not make the numbers hard coded ( use library? )
 4) create more index.ts file to make smaller imports if needed
 
+
+
 Additional mission:
 a) On top of the pictures i have in my phone, 
 i need to make an additional page that shows all directors,

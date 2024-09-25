@@ -10,8 +10,6 @@ export const createMovie = async (movie: Movie): Promise<Movie> => {
   return MovieRepository.create(movie);
 };
 
-// function takes 2 arguments seperately because id comes from URL
-// and movieInfo comes from the body of the request
 export const editMovie = async (
   movie: MovieDto,
   id: number
@@ -19,3 +17,9 @@ export const editMovie = async (
   return MovieRepository.edit(movie, id);
 };
 
+export const getMovieIds = async (): Promise<number[]> => {
+  const movieList = MovieRepository.getAll();
+  const moviesIdArr = movieList.map((movie) => movie.id);
+
+  return moviesIdArr;
+};

@@ -31,8 +31,22 @@ moviesRouter.patch(
     const errors = validationResult(req);
     validationErrorHandler(errors, res);
 
+    const moviesIdArr = await MovieService.getMovieIds();
     const updatedMovieId = Number(req.params.id);
-    const movie = await MovieService.editMovie(req.body, updatedMovieId);
-    res.status(201).json(movie);
+
+    // make this into a reusable middleware!
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ message: `Errors: ${errors.array()}` });
+    } else if (!moviesIdArr.includes(updatedMovieId)) {
+      return res.status(404).json({
+        message: `Movie with id of ${updatedMovieId} not found`,
+      });
+    } else {
+      const movie = await MovieService.editMovie(
+        req.body,
+        updatedMovieId
+      );
+      res.status(201).json(movie); 
+    }
   }
 );

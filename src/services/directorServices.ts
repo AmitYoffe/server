@@ -19,6 +19,9 @@ export const editDirector = async (
   return DirectorRepository.edit(director, id);
 };
 
-// export async function getDirectorById(updatedDirectorId: number) {
-//   throw new Error("Funtcion not implemented.");
-// }
+export const getDirectorIds = async (): Promise<number[]> => {
+  const directorList = DirectorRepository.getAll();
+  const directorsIdArr = directorList.map((director) => director.id);
+
+  return directorsIdArr;
+};
