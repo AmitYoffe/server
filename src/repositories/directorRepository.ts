@@ -1,12 +1,22 @@
 import fs from "fs";
-import { Director } from "../models/directorModel";
 import path from "path";
+import { Director } from "../models/directorModel";
 
 const directorsFilePath = path.resolve("./database/directors.json");
 
-export function getAll(): Director[] {
+export function getAll(searchQuery?: string): Director[] {
   const directors = fs.readFileSync(directorsFilePath, "utf-8");
-  return JSON.parse(directors);
+  const directorList = JSON.parse(directors);
+
+  if (searchQuery) {
+    return directorList.filter(
+      (director: Director) =>
+        director.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        director.lastName.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  }
+
+  return directorList;
 }
 
 export function create(directorInfo: Director): Director {
@@ -25,15 +35,16 @@ export function create(directorInfo: Director): Director {
     JSON.stringify(directors, null, 2),
     "utf-8"
   );
-  
+
   return newDirector;
 }
 
-export function edit(updatedDirector: Director): Director {
+export function edit(
+  updatedDirector: Omit<Director, "id">,
+  id: number
+): Director {
   const directors = getAll();
-  const directorIndex = directors.findIndex(
-    (director) => director.id === updatedDirector.id
-  );
+  const directorIndex = directors.findIndex((director) => director.id === id);
   directors[directorIndex] = {
     ...directors[directorIndex],
     ...updatedDirector,
@@ -43,5 +54,6 @@ export function edit(updatedDirector: Director): Director {
     JSON.stringify(directors, null, 2),
     "utf-8"
   );
+
   return directors[directorIndex];
 }

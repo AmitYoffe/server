@@ -8,7 +8,8 @@ import { directorEditValidator } from "../validations/directors/editDirector";
 export const directorsRouter = Router();
 
 directorsRouter.get("/", async (req: Request, res: Response) => {
-  const directors = await directorService.getAllDirectors();
+  const searchQuery = req.query.search as string;
+  const directors = await directorService.getAllDirectors(searchQuery);
   res.json(directors);
 });
 
@@ -32,7 +33,23 @@ directorsRouter.put(
     const errors = validationResult(req);
     validationErrorHandler(errors, res);
 
-    const director = await directorService.editDirector(req.body);
+    // const existingDirector = await directorService.getDirectorById(
+    //   updatedDirectorId
+    // );
+
+    // if (!existingDirector) {
+    //   return res
+    //     .status(404)
+    //     .json({
+    //       message: `Director with id of ${updatedDirectorId} not found`,
+    //     });
+    // }
+
+    const updatedDirectorId = Number(req.query.id);
+    const director = await directorService.editDirector(
+      req.body,
+      updatedDirectorId
+    );
     res.status(201).json(director);
   }
 );
