@@ -1,6 +1,7 @@
+import { Schema } from "express-validator";
 import { movieBaseValidator } from "./baseMovie";
 
-export const movieEditValidator = {
+export const movieEditValidator: Schema = {
   id: {
     notEmpty: {
       errorMessage: "ID can't be left empty",
@@ -8,5 +9,3 @@ export const movieEditValidator = {
   },
   ...movieBaseValidator,
 };
-
-// add type (Movie)?

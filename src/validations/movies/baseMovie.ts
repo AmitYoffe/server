@@ -1,4 +1,6 @@
-export const movieBaseValidator = {
+import { Schema } from "express-validator";
+
+export const movieBaseValidator: Schema = {
   title: {
     isLength: {
       options: { min: 2 },
@@ -24,5 +26,3 @@ export const movieBaseValidator = {
     },
   },
 };
-
-// add type ? movieDto?

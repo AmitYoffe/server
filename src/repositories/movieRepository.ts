@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { movieDto } from "../dtos/movieDto";
+import { MovieDto } from "../dtos/movies/createMovieDto";
 import { Movie } from "../models/movieModel";
 
 const moviesFilePath = path.resolve("./database/movies.json");
@@ -35,7 +35,7 @@ export function create(movieInfo: Movie): Movie {
   return newMovie;
 }
 
-export function edit(updatedMovie: movieDto, id: number): Movie {
+export function edit(updatedMovie: MovieDto, id: number): Movie {
   const movies = getAll();
   const movieIndex = movies.findIndex((movie) => movie.id === id);
   movies[movieIndex] = { ...movies[movieIndex], ...updatedMovie };

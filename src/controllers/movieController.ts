@@ -2,16 +2,21 @@ import { Request, Response, Router } from "express";
 import { checkSchema, validationResult } from "express-validator";
 import validationErrorHandler from "../middlewares/validationErrorHandler";
 import * as MovieService from "../services/movieServices";
-import { movieBaseValidator } from "../validations/movies/baseMovie";
-import { movieEditValidator } from "../validations/movies/editMovie";
+import { movieBaseValidator, movieEditValidator } from "../validations/index";
+// import { movieEditValidator } from "../validations/movies/editMovie";
 
 export const moviesRouter = Router();
 
-moviesRouter.get("/", async (req: Request, res: Response) => {
-  const searchQuery = req.query.search as string;
-  const movies = await MovieService.getAllMovies(searchQuery);
-  res.json(movies);
-});
+moviesRouter.get(
+  "/",
+  // Why don't i need to add the query params here?
+  // "/:query",
+  async (req: Request, res: Response) => {
+    const searchQuery = req.query.search as string;
+    const movies = await MovieService.getAllMovies(searchQuery);
+    res.json(movies);
+  }
+);
 
 moviesRouter.post(
   "/",
@@ -25,14 +30,17 @@ moviesRouter.post(
   }
 );
 
+// chnage this to patch and make the modification change certain field and not whole object
 moviesRouter.put(
-  "/",
+  // "/",
+  // Why don't i need to add the id params here?
+  "/:id",
   checkSchema(movieEditValidator),
   async (req: Request, res: Response) => {
     const errors = validationResult(req);
     validationErrorHandler(errors, res);
 
-    const updatedMovieId = Number(req.query.id);
+    const updatedMovieId = Number(req.params.id);
     const movie = await MovieService.editMovie(req.body, updatedMovieId);
     res.status(201).json(movie);
   }

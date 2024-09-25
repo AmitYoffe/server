@@ -1,4 +1,4 @@
-import { directorDto } from "../dtos/directorDto";
+import { DirectorDto } from "../dtos/directors/createDirectorDto";
 import { Director } from "../models/directorModel";
 import * as DirectorRepository from "../repositories/directorRepository";
 
@@ -13,7 +13,7 @@ export async function createDirector(director: Director): Promise<Director> {
 }
 
 export async function editDirector(
-  director: directorDto,
+  director: DirectorDto,
   id: number
 ): Promise<Director> {
   return DirectorRepository.edit(director, id);

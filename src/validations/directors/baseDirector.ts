@@ -1,4 +1,6 @@
-export const directorBaseValidator = {
+import { Schema } from "express-validator";
+
+export const directorBaseValidator: Schema = {
   firstName: {
     isLength: {
       options: { min: 2 },
