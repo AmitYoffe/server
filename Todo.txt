@@ -11,13 +11,7 @@ i need to implement to following concepts:
 Today-TODO :
 1) apply Inversify by changing functions in
   services and repositories to classes...
-2) read up on http status numbers 
-3) make an Enum of the status responses, 
-to not make the numbers hard coded ( use library? )
-4) create more index.ts file to make smaller imports if needed
-5) finish going through comments!
-
-
+2) finish going through comments
 
 Additional mission:
 a) On top of the pictures i have in my phone, 

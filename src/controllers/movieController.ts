@@ -1,9 +1,10 @@
 import { Request, Response, Router } from "express";
 import { checkSchema, validationResult } from "express-validator";
+import { StatusCodes } from "http-status-codes";
+import { checkMovieId } from "../middlewares/movies/checkMovieId";
 import validationErrorHandler from "../middlewares/validationErrorHandler";
 import * as MovieService from "../services/movieServices";
 import { movieBaseValidator, movieEditValidator } from "../validations/index";
-import { checkMovieId } from "../middlewares/movies/checkMovieId";
 
 export const moviesRouter = Router();
 
@@ -21,7 +22,7 @@ moviesRouter.post(
     validationErrorHandler(errors, res);
 
     const movie = await MovieService.createMovie(req.body);
-    res.status(201).json(movie);
+    res.status(StatusCodes.CREATED).json(movie);
   }
 );
 
@@ -32,6 +33,6 @@ moviesRouter.patch(
   async (req: Request, res: Response) => {
     const updatedMovieId = Number(req.params.id);
     const movie = await MovieService.editMovie(req.body, updatedMovieId);
-    res.status(201).json(movie);
+    res.status(StatusCodes.CREATED).json(movie);
   }
 );

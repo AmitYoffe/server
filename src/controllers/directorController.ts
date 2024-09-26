@@ -5,6 +5,7 @@ import validationErrorHandler from "../middlewares/validationErrorHandler";
 import * as directorService from "../services/directorServices";
 import { directorBaseValidator } from "../validations/directors/baseDirector";
 import { directorEditValidator } from "../validations/directors/editDirector";
+import { StatusCodes } from "http-status-codes";
 
 export const directorsRouter = Router();
 
@@ -23,7 +24,7 @@ directorsRouter.post(
     validationErrorHandler(errors, res);
 
     const director = await directorService.createDirector(req.body);
-    res.status(201).json(director);
+    res.status(StatusCodes.CREATED).json(director);
   }
 );
 
@@ -38,6 +39,6 @@ directorsRouter.patch(
       updatedDirectorId
     );
 
-    res.status(201).json(director);
+    res.status(StatusCodes.PARTIAL_CONTENT).json(director);
   }
 );

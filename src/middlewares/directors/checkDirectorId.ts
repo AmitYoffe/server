@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { validationResult } from "express-validator";
 import * as DirectorService from "../../services/directorServices";
+import { StatusCodes } from "http-status-codes";
 
 export const checkDirectorId = async (
   req: Request,
@@ -12,11 +13,11 @@ export const checkDirectorId = async (
   const updatedDirectorId = Number(req.params.id);
 
   if (!errors.isEmpty()) {
-    return res.status(400).json(errors);
+    return res.status(StatusCodes.BAD_REQUEST).json(errors);
   }
 
   if (!directorsIdArr.includes(updatedDirectorId)) {
-    return res.status(404).json({
+    return res.status(StatusCodes.NOT_FOUND).json({
       message: `Director with id of ${updatedDirectorId} not found`,
     });
   }

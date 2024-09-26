@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { validationResult } from "express-validator";
 import * as MovieService from "../../services/movieServices";
+import { StatusCodes } from "http-status-codes";
 
 export const checkMovieId = async (
   req: Request,
@@ -12,13 +13,11 @@ export const checkMovieId = async (
   const updatedMovieId = Number(req.params.id);
 
   if (!errors.isEmpty()) {
-    return res
-      .status(400)
-      .json(errors);
+    return res.status(StatusCodes.BAD_REQUEST).json(errors);
   }
 
   if (!moviesIdArr.includes(updatedMovieId)) {
-    return res.status(404).json({
+    return res.status(StatusCodes.NOT_FOUND).json({
       message: `Movie with id of ${updatedMovieId} not found`,
     });
   }
