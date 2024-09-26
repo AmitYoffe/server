@@ -19,7 +19,6 @@ directorsRouter.post(
   "/",
   checkSchema(directorBaseValidator),
   async (req: Request, res: Response) => {
-    // I am not sure if these 2 lines are even necessary:
     const errors = validationResult(req);
     validationErrorHandler(errors, res);
 
