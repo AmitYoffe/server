@@ -3,6 +3,7 @@ import { checkSchema, validationResult } from "express-validator";
 import validationErrorHandler from "../middlewares/validationErrorHandler";
 import * as MovieService from "../services/movieServices";
 import { movieBaseValidator, movieEditValidator } from "../validations/index";
+import { checkMovieId } from "../middlewares/movies/checkMovieId";
 
 export const moviesRouter = Router();
 
@@ -27,26 +28,10 @@ moviesRouter.post(
 moviesRouter.patch(
   "/:id",
   checkSchema(movieEditValidator),
+  checkMovieId,
   async (req: Request, res: Response) => {
-    const errors = validationResult(req);
-    validationErrorHandler(errors, res);
-
-    const moviesIdArr = await MovieService.getMovieIds();
     const updatedMovieId = Number(req.params.id);
-
-    // make this into a reusable middleware!
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ message: `Errors: ${errors.array()}` });
-    } else if (!moviesIdArr.includes(updatedMovieId)) {
-      return res.status(404).json({
-        message: `Movie with id of ${updatedMovieId} not found`,
-      });
-    } else {
-      const movie = await MovieService.editMovie(
-        req.body,
-        updatedMovieId
-      );
-      res.status(201).json(movie); 
-    }
+    const movie = await MovieService.editMovie(req.body, updatedMovieId);
+    res.status(201).json(movie);
   }
 );

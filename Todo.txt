@@ -15,6 +15,7 @@ Today-TODO :
 3) make an Enum of the status responses, 
 to not make the numbers hard coded ( use library? )
 4) create more index.ts file to make smaller imports if needed
+5) finish going through comments!
 
 
 

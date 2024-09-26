@@ -1,5 +1,6 @@
 import { Request, Response, Router } from "express";
 import { checkSchema, validationResult } from "express-validator";
+import { checkDirectorId } from "../middlewares/directors/checkDirectorId";
 import validationErrorHandler from "../middlewares/validationErrorHandler";
 import * as directorService from "../services/directorServices";
 import { directorBaseValidator } from "../validations/directors/baseDirector";
@@ -29,26 +30,14 @@ directorsRouter.post(
 directorsRouter.patch(
   "/:id",
   checkSchema(directorEditValidator),
+  checkDirectorId,
   async (req: Request, res: Response) => {
-    const errors = validationResult(req);
-    validationErrorHandler(errors, res);
-
-    const directorsIdArr = await directorService.getDirectorIds();
     const updatedDirectorId = Number(req.params.id);
+    const director = await directorService.editDirector(
+      req.body,
+      updatedDirectorId
+    );
 
-    // make this into a reusable middleware!
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ message: `Errors: ${errors.array()}` });
-    } else if (!directorsIdArr.includes(updatedDirectorId)) {
-      return res.status(404).json({
-        message: `Director with id of ${updatedDirectorId} not found`,
-      });
-    } else {
-      const director = await directorService.editDirector(
-        req.body,
-        updatedDirectorId
-      );
-      res.status(201).json(director); 
-    }
+    res.status(201).json(director);
   }
 );
