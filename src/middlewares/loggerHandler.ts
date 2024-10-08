@@ -13,7 +13,7 @@ const loggerHandler = (req: Request, res: Response) => {
     }
 
     // if (req.path !== '/favicon.ico') {
-    //     console.log(log);
+    console.log(log);
     // }
 }
 

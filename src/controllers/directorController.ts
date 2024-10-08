@@ -4,7 +4,7 @@ import { StatusCodes } from "http-status-codes";
 import { checkDirectorId } from "../middlewares/directors/checkDirectorId";
 import loggerHandler from "../middlewares/loggerHandler";
 import validationErrorHandler from "../middlewares/validationErrorHandler";
-import * as directorService from "../services/directorServices";
+import { createDirector, editDirector, getAllDirectors } from "../services/directorServices";
 import { directorBaseValidator } from "../validations/directors/baseDirector";
 import { directorEditValidator } from "../validations/directors/editDirector";
 
@@ -12,7 +12,7 @@ export const directorsRouter = Router();
 
 directorsRouter.get("/:search?", loggerHandler, async (req: Request, res: Response) => {
   const searchQuery = req.params.search;
-  const directors = await directorService.getAllDirectors(searchQuery);
+  const directors = await getAllDirectors(searchQuery);
   res.json(directors);
 });
 
@@ -24,7 +24,7 @@ directorsRouter.post(
     const errors = validationResult(req);
     validationErrorHandler(errors, res);
 
-    const director = await directorService.createDirector(req.body);
+    const director = await createDirector(req.body);
     res.status(StatusCodes.CREATED).json(director);
   }
 );
@@ -36,7 +36,7 @@ directorsRouter.patch(
   checkDirectorId,
   async (req: Request, res: Response) => {
     const updatedDirectorId = Number(req.params.id);
-    const director = await directorService.editDirector(
+    const director = await editDirector(
       req.body,
       updatedDirectorId
     );
