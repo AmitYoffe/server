@@ -24,3 +24,5 @@ export const checkMovieId = async (
 
   next();
 };
+
+//Todo: maybe make this function reuseable by combining checkMovieId / checkDirectorId

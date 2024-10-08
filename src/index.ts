@@ -10,11 +10,13 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
-app.use("/movies", moviesRouter);
-app.use("/directors", directorsRouter);
-// get back to the error handler after finishing the logger middleware
-// app.use(errorHandler);
+app.use("/movies", moviesRouter, errorHandler);
+app.use("/directors", directorsRouter, errorHandler);
 app.use(loggerHandler);
+
+// app.get('/favicon.ico', (req, res) => {
+//   res.status(404).send();
+// });
 
 app.get("/", (req, res) => {
   res.send("Hello World!");

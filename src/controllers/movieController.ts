@@ -5,10 +5,11 @@ import { checkMovieId } from "../middlewares/movies/checkMovieId";
 import validationErrorHandler from "../middlewares/validationErrorHandler";
 import * as MovieService from "../services/movieServices";
 import { movieBaseValidator, movieEditValidator } from "../validations/index";
+import loggerHandler from "../middlewares/loggerHandler";
 
 export const moviesRouter = Router();
 
-moviesRouter.get("/:search?", async (req: Request, res: Response) => {
+moviesRouter.get("/:search?", loggerHandler, async (req: Request, res: Response) => {
   const searchQuery = req.params.search;
   const movies = await MovieService.getAllMovies(searchQuery);
   res.json(movies);
@@ -16,6 +17,7 @@ moviesRouter.get("/:search?", async (req: Request, res: Response) => {
 
 moviesRouter.post(
   "/",
+  loggerHandler,
   checkSchema(movieBaseValidator),
   async (req: Request, res: Response) => {
     const errors = validationResult(req);
@@ -28,6 +30,7 @@ moviesRouter.post(
 
 moviesRouter.patch(
   "/:id",
+  loggerHandler,
   checkSchema(movieEditValidator),
   checkMovieId,
   async (req: Request, res: Response) => {

@@ -1,15 +1,16 @@
 import { Request, Response, Router } from "express";
 import { checkSchema, validationResult } from "express-validator";
+import { StatusCodes } from "http-status-codes";
 import { checkDirectorId } from "../middlewares/directors/checkDirectorId";
+import loggerHandler from "../middlewares/loggerHandler";
 import validationErrorHandler from "../middlewares/validationErrorHandler";
 import * as directorService from "../services/directorServices";
 import { directorBaseValidator } from "../validations/directors/baseDirector";
 import { directorEditValidator } from "../validations/directors/editDirector";
-import { StatusCodes } from "http-status-codes";
 
 export const directorsRouter = Router();
 
-directorsRouter.get("/:search?", async (req: Request, res: Response) => {
+directorsRouter.get("/:search?", loggerHandler, async (req: Request, res: Response) => {
   const searchQuery = req.params.search;
   const directors = await directorService.getAllDirectors(searchQuery);
   res.json(directors);
@@ -17,6 +18,7 @@ directorsRouter.get("/:search?", async (req: Request, res: Response) => {
 
 directorsRouter.post(
   "/",
+  loggerHandler,
   checkSchema(directorBaseValidator),
   async (req: Request, res: Response) => {
     const errors = validationResult(req);
@@ -29,6 +31,7 @@ directorsRouter.post(
 
 directorsRouter.patch(
   "/:id",
+  loggerHandler,
   checkSchema(directorEditValidator),
   checkDirectorId,
   async (req: Request, res: Response) => {
