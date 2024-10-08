@@ -12,9 +12,7 @@ const loggerHandler = (req: Request, res: Response) => {
         body: req.body,
     }
 
-    // if (req.path !== '/favicon.ico') {
     console.log(log);
-    // }
 }
 
 export default loggerHandler;

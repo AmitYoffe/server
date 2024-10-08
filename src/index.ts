@@ -14,10 +14,6 @@ app.use("/movies", moviesRouter, errorHandler);
 app.use("/directors", directorsRouter, errorHandler);
 app.use(loggerHandler);
 
-// app.get('/favicon.ico', (req, res) => {
-//   res.status(404).send();
-// });
-
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
