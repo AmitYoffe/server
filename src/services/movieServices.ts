@@ -23,7 +23,3 @@ export const getMovieIds = async (): Promise<number[]> => {
 
   return moviesIdArr;
 };
-export function getDirectorIds() {
-  throw new Error("Function not implemented.");
-}
-

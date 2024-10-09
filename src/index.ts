@@ -1,23 +1,28 @@
-import dotenv from "dotenv";
-import express from "express";
-import { directorsRouter, moviesRouter } from "./controllers";
-import errorHandler from "./middlewares/error";
-import loggerHandler from "./middlewares/loggerHandler";
+// import dotenv from "dotenv";
+// import express from "express";
+// import { directorsRouter } from "./controllers";
+// import { moviesRouter } from "./controllers/movieController";
+// import errorHandler from "./middlewares/error";
+// import loggerHandler from "./middlewares/loggerHandler";
+import ExpressApp from "./ExpressApp";
 
-dotenv.config();
+const myApp = new ExpressApp();
+myApp.listen();
 
-const app = express();
-const PORT = process.env.PORT || 3000;
+// dotenv.config();
 
-app.use(express.json());
-app.use("/movies", moviesRouter, errorHandler);
-app.use("/directors", directorsRouter, errorHandler);
-app.use(loggerHandler);
+// const app = express();
+// const PORT = process.env.PORT || 3000;
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
+// app.use(express.json());
+// app.use("/movies", moviesRouter, errorHandler);
+// app.use("/directors", directorsRouter, errorHandler);
+// app.use(loggerHandler);
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+// app.get("/", (req, res) => {
+//   res.send("Hello World!");
+// });
+
+// app.listen(PORT, () => {
+//   console.log(`Server is running on port ${PORT}`);
+// });
