@@ -13,10 +13,11 @@ class ExpressApp {
 
         this.app = express();
         this.port = parseInt(process.env.PORT as string) || 3000;
-        this.useMiddleware()
+        this.useMiddleware();
+        this.initializeRoutes();
     }
 
-    initializeRoutes() {
+    private initializeRoutes() {
         this.app.get("/", (req, res) => {
             res.send("Hello World!");
         });
@@ -25,7 +26,7 @@ class ExpressApp {
         this.app.use("/directors", directorsRouter);
     }
 
-    useMiddleware() {
+    private useMiddleware() {
         this.app.use(loggerHandler);
         this.app.use(errorHandler);
         this.app.use(express.json());
