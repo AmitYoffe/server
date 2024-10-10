@@ -1,2 +1,2 @@
 export * from "./directorController";
-// export * from "./movieController";
+export * from "./movieController";

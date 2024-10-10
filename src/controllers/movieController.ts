@@ -1,86 +1,62 @@
-// import { NextFunction, Request, Response, Router } from "express";
-// import { Movie } from "../models/movieModel";
+import { Request, Response, Router } from "express";
+import { checkSchema, validationResult } from "express-validator";
+import { StatusCodes } from "http-status-codes";
+import loggerHandler from "../middlewares/loggerHandler";
+import { checkMovieId } from "../middlewares/movies/checkMovieId";
+import validationErrorHandler from "../middlewares/validationErrorHandler";
+import {
+  createMovie,
+  editMovie,
+  getAllMovies,
+} from "../services/movieServices";
+import { movieBaseValidator, movieEditValidator } from "../validations";
+// import { movieBaseValidator, movieEditValidator } from "../validations";
+// add this bundled import
 
-// export class MoviesRouter {
-//   router: Router;
+export class MovieRouter {
+  router = Router();
 
-//   constructor(
-//     // private loggerHandler: (req: Request, res: Response, next: NextFunction) => void,
-//     // private getAllMovies: (searchQuery?: string) => Promise<Movie[]>,
-//   ) {
-//     this.router = Router();
-//     this.initializeRoutes();
-//   }
+  constructor() {
+    this.initializeRoutes();
+  }
 
-//   private initializeRoutes() {
-//     this.router.get("/:search?", this.loggerHandler, this.getMoviesHandler);
-//     post 
-//     patch
-//   }
+  private initializeRoutes() {
+    this.router.get("/:search?", loggerHandler, this.get.bind(this));
+    this.router.post(
+      "/",
+      loggerHandler,
+      checkSchema(movieBaseValidator),
+      this.post.bind(this)
+    );
+    this.router.patch(
+      "/",
+      loggerHandler,
+      checkSchema(movieEditValidator),
+      checkMovieId,
+      this.patch.bind(this)
+    );
+  }
 
-//   private getMoviesHandler = async (req: Request, res: Response) => {
-//     const searchQuery = req.params.search;
-//     const movies = await this.getAllMovies(searchQuery);
-//     res.json(movies);
-//   }
+  async get(req: Request, res: Response) {
+    const searchQuery = req.params.search;
+    const movies = await getAllMovies(searchQuery);
+    res.json(movies);
+  }
 
+  async post(req: Request, res: Response) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return validationErrorHandler(errors, res);
+    }
+    const movie = await createMovie(req.body);
+    res.status(StatusCodes.CREATED).json(movie);
+  }
 
-// }
+  async patch(req: Request, res: Response) {
+    const updatedMovieId = Number(req.params.id);
+    const movie = await editMovie(req.body, updatedMovieId);
+    res.status(StatusCodes.CREATED).json(movie);
+  }
+}
 
-
-// // turning the lower part into classes above
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// // export const moviesRouter = Router();
-
-// // moviesRouter.get("/:search?", loggerHandler, async (req: Request, res: Response) => {
-// //   const searchQuery = req.params.search;
-// //   const movies = await getAllMovies(searchQuery);
-// //   res.json(movies);
-// // });
-
-// // moviesRouter.post(
-// //   "/",
-// //   loggerHandler,
-// //   checkSchema(movieBaseValidator),
-// //   async (req: Request, res: Response) => {
-// //     const errors = validationResult(req);
-// //     validationErrorHandler(errors, res);
-
-// //     const movie = await createMovie(req.body);
-// //     res.status(StatusCodes.CREATED).json(movie);
-// //   }
-// // );
-
-// // moviesRouter.patch(
-// //   "/:id",
-// //   loggerHandler,
-// //   checkSchema(movieEditValidator),
-// //   checkMovieId,
-// //   async (req: Request, res: Response) => {
-// //     const updatedMovieId = Number(req.params.id);
-// //     const movie = await editMovie(req.body, updatedMovieId);
-// //     res.status(StatusCodes.CREATED).json(movie);
-// //   }
-// // );
+// patch and post methods do not work because req.body come as undefined... :(

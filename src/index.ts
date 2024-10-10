@@ -1,28 +1,4 @@
-// import dotenv from "dotenv";
-// import express from "express";
-// import { directorsRouter } from "./controllers";
-// import { moviesRouter } from "./controllers/movieController";
-// import errorHandler from "./middlewares/error";
-// import loggerHandler from "./middlewares/loggerHandler";
-import ExpressApp from "./ExpressApp";
+import ExpressApp from "./expressApp";
 
 const myApp = new ExpressApp();
 myApp.listen();
-
-// dotenv.config();
-
-// const app = express();
-// const PORT = process.env.PORT || 3000;
-
-// app.use(express.json());
-// app.use("/movies", moviesRouter, errorHandler);
-// app.use("/directors", directorsRouter, errorHandler);
-// app.use(loggerHandler);
-
-// app.get("/", (req, res) => {
-//   res.send("Hello World!");
-// });
-
-// app.listen(PORT, () => {
-//   console.log(`Server is running on port ${PORT}`);
-// });
