@@ -1,7 +1,7 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { LogDto } from "../dtos/logDto";
 
-const loggerHandler = (req: Request, res: Response) => {
+const loggerHandler = (req: Request, res: Response, next: NextFunction) => {
     const currentTime = new Date();
 
     let log: LogDto = {
@@ -13,6 +13,7 @@ const loggerHandler = (req: Request, res: Response) => {
     }
 
     console.log(log);
+    next();
 }
 
 export default loggerHandler;

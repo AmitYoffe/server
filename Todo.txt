@@ -10,7 +10,6 @@ i need to implement to following concepts:
 
 October TODOs:
 1) apply Inversify by changing functions in services and repositories to classes...
-and turn the index file into a class called something like 'app'
 
 Additional missions:
 a) On top of the pictures i have in my phone, 

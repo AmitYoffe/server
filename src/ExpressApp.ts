@@ -10,26 +10,24 @@ class ExpressApp {
 
     constructor() {
         dotenv.config();
-
+        
         this.app = express();
         this.port = parseInt(process.env.PORT as string) || 3000;
-        this.useMiddleware();
         this.initializeRoutes();
+        this.useMiddleware();
     }
 
     private initializeRoutes() {
         this.app.get("/", (req, res) => {
             res.send("Hello World!");
         });
-
-        // this.app.use("/movies", moviesRouter);
         this.app.use("/directors", directorsRouter);
     }
 
     private useMiddleware() {
         this.app.use(loggerHandler);
-        this.app.use(errorHandler);
         this.app.use(express.json());
+        this.app.use(errorHandler);
     }
 
     listen() {
