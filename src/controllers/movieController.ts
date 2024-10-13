@@ -1,17 +1,20 @@
 import { Request, Response, Router } from "express";
 import { checkSchema, validationResult } from "express-validator";
 import { StatusCodes } from "http-status-codes";
+import { inject, injectable } from "inversify";
 import loggerHandler from "../middlewares/loggerHandler";
 import { checkMovieId } from "../middlewares/movies/checkMovieId";
 import validationErrorHandler from "../middlewares/validationErrorHandler";
 import { MovieService } from "../services/movieServices";
 import { movieBaseValidator, movieEditValidator } from "../validations";
 
+@injectable()
 export class MovieController {
   router = Router();
-  movieService = new MovieService()
 
-  constructor() {
+  constructor(
+    @inject(MovieService) private service: MovieService
+  ) {
     this.initializeRoutes();
   }
 
@@ -34,7 +37,7 @@ export class MovieController {
 
   async get(req: Request, res: Response) {
     const searchQuery = req.params.search;
-    const movies = await this.movieService.getAllMovies(searchQuery);
+    const movies = await this.service.getAllMovies(searchQuery);
     res.json(movies);
   }
 
@@ -43,13 +46,13 @@ export class MovieController {
     if (!errors.isEmpty()) {
       return validationErrorHandler(errors, res);
     }
-    const movie = await this.movieService.createMovie(req.body);
+    const movie = await this.service.createMovie(req.body);
     res.status(StatusCodes.CREATED).json(movie);
   }
 
   async patch(req: Request, res: Response) {
     const updatedMovieId = Number(req.params.id);
-    const movie = await this.movieService.editMovie(req.body, updatedMovieId);
+    const movie = await this.service.editMovie(req.body, updatedMovieId);
     res.status(StatusCodes.CREATED).json(movie);
   }
 }

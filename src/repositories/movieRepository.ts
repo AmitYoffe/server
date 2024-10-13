@@ -1,8 +1,10 @@
 import fs from "fs";
+import { injectable } from "inversify";
 import path from "path";
 import { MovieDto } from "../dtos/movies/createMovieDto";
 import { Movie } from "../models/movieModel";
 
+@injectable()
 export class MovieRepository {
   moviesFilePath = path.resolve("./database/movies.json");
 

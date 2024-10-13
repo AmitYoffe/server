@@ -8,16 +8,16 @@ import errorHandler from "./middlewares/error";
 class ExpressApp {
     private app: express.Application;
     private port: number;
-    private movieRouter: MovieController;
 
     constructor(
-        @inject(DirectorController) private directorController: DirectorController
+        @inject(DirectorController) private directorController: DirectorController,
+        @inject(MovieController) private movieController: MovieController
+
     ) {
         dotenv.config();
 
         this.app = express();
         this.port = parseInt(process.env.PORT as string) || 3000;
-        this.movieRouter = new MovieController();
 
         this.initializeRoutes();
         this.useMiddleware();
@@ -28,7 +28,7 @@ class ExpressApp {
             res.send("Hello World!");
         });
         this.app.use("/directors", this.directorController.router);
-        this.app.use("/movies", this.movieRouter.router);
+        this.app.use("/movies", this.movieController.router);
     }
 
     private useMiddleware() {

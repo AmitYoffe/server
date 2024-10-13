@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator";
 import { StatusCodes } from "http-status-codes";
+import container from "../../inversify.config";
 import { MovieService } from "../../services/movieServices";
 
 export const checkMovieId = async (
@@ -11,7 +12,7 @@ export const checkMovieId = async (
   const errors = validationResult(req);
   const updatedMovieId = Number(req.params.id);
 
-  const movieService = new MovieService();
+  const movieService = container.get(MovieService)
   const moviesIdArr = await movieService.getMovieIds();
 
   if (!errors.isEmpty()) {

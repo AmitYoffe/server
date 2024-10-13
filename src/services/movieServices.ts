@@ -1,9 +1,13 @@
+import { inject, injectable } from "inversify";
 import { MovieDto } from "../dtos/movies/createMovieDto";
 import { Movie } from "../models/movieModel";
 import { MovieRepository } from "../repositories/movieRepository";
 
+@injectable()
 export class MovieService {
-  movieRepository = new MovieRepository();
+  constructor(
+    @inject(MovieRepository) private movieRepository: MovieRepository
+  ) { }
 
   getAllMovies = async (searchQuery?: string): Promise<Movie[]> => {
     return this.movieRepository.getAll(searchQuery);
