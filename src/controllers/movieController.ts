@@ -2,9 +2,7 @@ import { Request, Response, Router } from "express";
 import { checkSchema, validationResult } from "express-validator";
 import { StatusCodes } from "http-status-codes";
 import { inject, injectable } from "inversify";
-import loggerHandler from "../middlewares/loggerHandler";
-import { checkMovieId } from "../middlewares/movies/checkMovieId";
-import validationErrorHandler from "../middlewares/validationErrorHandler";
+import { loggerHandler, validationErrorHandler, checkMovieId } from "../middlewares";
 import { MovieService } from "../services/movieServices";
 import { movieBaseValidator, movieEditValidator } from "../validations";
 

@@ -2,9 +2,7 @@ import { Request, Response, Router } from "express";
 import { checkSchema, validationResult } from "express-validator";
 import { StatusCodes } from "http-status-codes";
 import { inject, injectable } from "inversify";
-import { checkDirectorId } from "../middlewares/directors/checkDirectorId";
-import loggerHandler from "../middlewares/loggerHandler";
-import validationErrorHandler from "../middlewares/validationErrorHandler";
+import { checkDirectorId, loggerHandler, validationErrorHandler } from "../middlewares";
 import { DirectorService } from "../services/directorServices";
 import { directorBaseValidator, directorEditValidator } from "../validations";
 
@@ -19,7 +17,6 @@ export class DirectorController {
   }
 
   initializeRoute() {
-    // prettify this chunk somehow
     this.router.get("/:search?", loggerHandler, this.get.bind(this));
     this.router.post(
       "/",
@@ -27,7 +24,7 @@ export class DirectorController {
       checkSchema(directorBaseValidator),
       this.post.bind(this)
     );
-    this.router.get(
+    this.router.patch(
       "/:id",
       loggerHandler,
       checkSchema(directorEditValidator),

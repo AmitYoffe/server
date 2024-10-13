@@ -12,7 +12,6 @@ class ExpressApp {
     constructor(
         @inject(DirectorController) private directorController: DirectorController,
         @inject(MovieController) private movieController: MovieController
-
     ) {
         dotenv.config();
 

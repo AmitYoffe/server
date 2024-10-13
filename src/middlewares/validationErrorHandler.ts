@@ -2,7 +2,7 @@ import { Response } from "express";
 import { Result, ValidationError } from "express-validator";
 import { StatusCodes } from "http-status-codes";
 
-export default function validationErrorHandler(
+export function validationErrorHandler(
   errors: Result<ValidationError>,
   res: Response
 ) {
