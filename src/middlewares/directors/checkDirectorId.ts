@@ -27,3 +27,5 @@ export const checkDirectorId = async (
 
   next();
 };
+
+// todo: move this logic into service layer ( movies & directors )

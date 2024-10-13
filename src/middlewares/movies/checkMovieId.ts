@@ -14,7 +14,8 @@ export const checkMovieId = async (
 
   const movieService = container.get(MovieService)
   const moviesIdArr = await movieService.getMovieIds();
-
+  
+  // error and validations shouldnt be here, only in middleware ection in expressApp
   if (!errors.isEmpty()) {
     return res.status(StatusCodes.BAD_REQUEST).json(errors);
   }
@@ -27,5 +28,3 @@ export const checkMovieId = async (
 
   next();
 };
-
-//Todo: maybe make this function reuseable by combining checkMovieId / checkDirectorId

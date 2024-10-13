@@ -1,4 +1,4 @@
-// import bodyParser from "body-parser";
+import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import express, { json } from "express";
 import { inject } from "inversify";
@@ -32,8 +32,9 @@ class ExpressApp {
 
     private useMiddleware() {
         // this.app.use(loggerHandler); // this doesn't make a difference
-        this.app.use(json());
-        // this.app.use(bodyParser.json());
+        // add validations here not down in the code
+        // this.app.use(json()); // do i need this if i have a body parser?
+        this.app.use(bodyParser.json());
         this.app.use(errorHandler);
     }
 

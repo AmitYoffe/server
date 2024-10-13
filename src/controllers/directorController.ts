@@ -55,6 +55,8 @@ export class DirectorController {
 
   async patch(req: Request, res: Response) {
     const updatedDirectorId = Number(req.params.id);
+    // console.log('req.body');
+    
     const director = await this.service.editDirector(req.body, updatedDirectorId);
 
     res.status(StatusCodes.PARTIAL_CONTENT).json(director);

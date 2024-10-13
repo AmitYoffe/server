@@ -40,6 +40,7 @@ export class MovieController {
   }
 
   async post(req: Request, res: Response) {
+    // move this to use middleware 44- 47
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return validationErrorHandler(errors, res);

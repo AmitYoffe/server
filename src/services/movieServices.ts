@@ -30,4 +30,8 @@ export class MovieService {
 
     return moviesIdArr;
   };
+
+  checkMovieId = async () => {
+    // 
+  }
 }

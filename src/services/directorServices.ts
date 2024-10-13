@@ -28,4 +28,8 @@ export class DirectorService {
     const directorList = await this.directorRepository.getAll();
     return directorList.map((director) => director.id);
   }
+
+  checkMovieId = async () => {
+    // 
+  }
 }
