@@ -5,7 +5,7 @@ import { Movie } from "../models/movieModel";
 
 const moviesFilePath = path.resolve("./database/movies.json");
 
-export const getAll = (searchQuery?: string): Movie[] => {
+export const getAll = async (searchQuery?: string): Promise<Movie[]> => {
   const movies = fs.readFileSync(moviesFilePath, "utf-8");
   const movieList = JSON.parse(movies);
 
@@ -18,8 +18,8 @@ export const getAll = (searchQuery?: string): Movie[] => {
   return movieList;
 };
 
-export const create = (movieInfo: Movie): Movie => {
-  const movies = getAll();
+export const create = async (movieInfo: Movie): Promise<Movie> => {
+  const movies = await getAll();
 
   let newId = 1;
   for (const existingMovie of movies) {
@@ -35,8 +35,8 @@ export const create = (movieInfo: Movie): Movie => {
   return newMovie;
 };
 
-export const edit = (updatedMovie: MovieDto, id: number): Movie => {
-  const movies = getAll();
+export const edit = async (updatedMovie: MovieDto, id: number): Promise<Movie> => {
+  const movies = await getAll();
   const movieIndex = movies.findIndex((movie) => movie.id === id);
   movies[movieIndex] = { ...movies[movieIndex], ...updatedMovie };
   fs.writeFileSync(moviesFilePath, JSON.stringify(movies, null, 2), "utf-8");

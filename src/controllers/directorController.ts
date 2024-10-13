@@ -4,22 +4,20 @@ import { StatusCodes } from "http-status-codes";
 import { checkDirectorId } from "../middlewares/directors/checkDirectorId";
 import loggerHandler from "../middlewares/loggerHandler";
 import validationErrorHandler from "../middlewares/validationErrorHandler";
-import {
-  createDirector,
-  editDirector,
-  getAllDirectors,
-} from "../services/directorServices";
+import { create, edit, getAll } from "../repositories/directorRepository";
+import { DirectorService } from "../services/directorServices";
 import { directorBaseValidator, directorEditValidator } from "../validations";
 
 export class DirectorRouter {
   router = Router();
+  directorService = new DirectorService(getAll, create, edit);
 
   constructor() {
     this.initializeRoute();
   }
 
   initializeRoute() {
-    // prettify this chunk
+    // prettify this chunk somehow
     this.router.get("/:search?", loggerHandler, this.get.bind(this));
     this.router.post(
       "/",
@@ -38,7 +36,8 @@ export class DirectorRouter {
 
   async get(req: Request, res: Response) {
     const searchQuery = req.params.search;
-    const directors = await getAllDirectors(searchQuery);
+    const directors = await this.directorService.getAllDirectors(searchQuery);
+
     res.json(directors);
   }
 
@@ -50,14 +49,14 @@ export class DirectorRouter {
       return validationErrorHandler(errors, res);
     }
 
-    const director = await createDirector(req.body);
+    const director = await this.directorService.createDirector(req.body);
     res.status(StatusCodes.CREATED).json(director);
     // fix logic, singular id field created in db even when validations fails !
   }
 
   async patch(req: Request, res: Response) {
     const updatedDirectorId = Number(req.params.id);
-    const director = await editDirector(req.body, updatedDirectorId);
+    const director = await this.directorService.editDirector(req.body, updatedDirectorId);
 
     res.status(StatusCodes.PARTIAL_CONTENT).json(director);
   }

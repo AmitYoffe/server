@@ -1,7 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import { validationResult } from "express-validator";
-import * as MovieService from "../../services/movieServices";
+import { MovieService } from "../../services/movieServices";
 import { StatusCodes } from "http-status-codes";
+import { create, edit, getAll } from "../../repositories/movieRepository";
 
 export const checkMovieId = async (
   req: Request,
@@ -9,8 +10,10 @@ export const checkMovieId = async (
   next: NextFunction
 ) => {
   const errors = validationResult(req);
-  const moviesIdArr = await MovieService.getMovieIds();
   const updatedMovieId = Number(req.params.id);
+
+  const movieService = new MovieService(getAll, create, edit);
+  const moviesIdArr = await movieService.getMovieIds();
 
   if (!errors.isEmpty()) {
     return res.status(StatusCodes.BAD_REQUEST).json(errors);

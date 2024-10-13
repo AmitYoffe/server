@@ -5,7 +5,7 @@ import { Director } from "../models/directorModel";
 
 const directorsFilePath = path.resolve("./database/directors.json");
 
-export const getAll = (searchQuery?: string): Director[] => {
+export const getAll = async (searchQuery?: string): Promise<Director[]> => {
   const directors = fs.readFileSync(directorsFilePath, "utf-8");
   const directorList = JSON.parse(directors);
 
@@ -20,8 +20,8 @@ export const getAll = (searchQuery?: string): Director[] => {
   return directorList;
 };
 
-export const create = (directorInfo: Director): Director => {
-  const directors = getAll();
+export const create = async (directorInfo: Director): Promise<Director> => {
+  const directors = await getAll();
   let newId = 1;
   for (const existingDirector of directors) {
     if (existingDirector.id >= newId) {
@@ -40,8 +40,8 @@ export const create = (directorInfo: Director): Director => {
   return newDirector;
 };
 
-export const edit = (updatedDirector: DirectorDto, id: number): Director => {
-  const directors = getAll();
+export const edit = async (updatedDirector: DirectorDto, id: number): Promise<Director> => {
+  const directors = await getAll();
   const directorIndex = directors.findIndex((director) => director.id === id);
   directors[directorIndex] = {
     ...directors[directorIndex],

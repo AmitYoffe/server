@@ -4,17 +4,13 @@ import { StatusCodes } from "http-status-codes";
 import loggerHandler from "../middlewares/loggerHandler";
 import { checkMovieId } from "../middlewares/movies/checkMovieId";
 import validationErrorHandler from "../middlewares/validationErrorHandler";
-import {
-  createMovie,
-  editMovie,
-  getAllMovies,
-} from "../services/movieServices";
+import { create, edit, getAll } from "../repositories/movieRepository";
+import { MovieService } from "../services/movieServices";
 import { movieBaseValidator, movieEditValidator } from "../validations";
-// import { movieBaseValidator, movieEditValidator } from "../validations";
-// add this bundled import
 
 export class MovieRouter {
   router = Router();
+  movieService = new MovieService(getAll, create, edit)
 
   constructor() {
     this.initializeRoutes();
@@ -39,7 +35,7 @@ export class MovieRouter {
 
   async get(req: Request, res: Response) {
     const searchQuery = req.params.search;
-    const movies = await getAllMovies(searchQuery);
+    const movies = await this.movieService.getAllMovies(searchQuery);
     res.json(movies);
   }
 
@@ -48,13 +44,13 @@ export class MovieRouter {
     if (!errors.isEmpty()) {
       return validationErrorHandler(errors, res);
     }
-    const movie = await createMovie(req.body);
+    const movie = await this.movieService.createMovie(req.body);
     res.status(StatusCodes.CREATED).json(movie);
   }
 
   async patch(req: Request, res: Response) {
     const updatedMovieId = Number(req.params.id);
-    const movie = await editMovie(req.body, updatedMovieId);
+    const movie = await this.movieService.editMovie(req.body, updatedMovieId);
     res.status(StatusCodes.CREATED).json(movie);
   }
 }

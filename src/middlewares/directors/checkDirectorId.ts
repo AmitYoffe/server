@@ -1,7 +1,8 @@
-import { Request, Response, NextFunction } from "express";
+import { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator";
-import * as DirectorService from "../../services/directorServices";
 import { StatusCodes } from "http-status-codes";
+import { create, edit, getAll } from "../../repositories/directorRepository";
+import { DirectorService } from "../../services/directorServices";
 
 export const checkDirectorId = async (
   req: Request,
@@ -9,8 +10,10 @@ export const checkDirectorId = async (
   next: NextFunction
 ) => {
   const errors = validationResult(req);
-  const directorsIdArr = await DirectorService.getDirectorIds();
   const updatedDirectorId = Number(req.params.id);
+
+  const directorService = new DirectorService(getAll, create, edit);
+  const directorsIdArr = await directorService.getDirectorIds();
 
   if (!errors.isEmpty()) {
     return res.status(StatusCodes.BAD_REQUEST).json(errors);

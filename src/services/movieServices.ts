@@ -1,25 +1,32 @@
 import { MovieDto } from "../dtos/movies/createMovieDto";
 import { Movie } from "../models/movieModel";
-import { create, edit, getAll } from "../repositories/movieRepository";
 
-export const getAllMovies = async (searchQuery?: string): Promise<Movie[]> => {
-  return getAll(searchQuery);
-};
+export class MovieService {
+  constructor(
+    private getAll: (searchQuery?: string) => Promise<Movie[]>,
+    private create: (movie: Movie) => Promise<Movie>,
+    private edit: (movie: MovieDto, id: number) => Promise<Movie>
+  ) { }
 
-export const createMovie = async (movie: Movie): Promise<Movie> => {
-  return create(movie);
-};
+  getAllMovies = async (searchQuery?: string): Promise<Movie[]> => {
+    return this.getAll(searchQuery);
+  }
 
-export const editMovie = async (
-  movie: MovieDto,
-  id: number
-): Promise<Movie> => {
-  return edit(movie, id);
-};
+  createMovie = async (movie: Movie): Promise<Movie> => {
+    return this.create(movie);
+  };
 
-export const getMovieIds = async (): Promise<number[]> => {
-  const movieList = getAll();
-  const moviesIdArr = movieList.map((movie) => movie.id);
+  editMovie = async (
+    movie: MovieDto,
+    id: number
+  ): Promise<Movie> => {
+    return this.edit(movie, id);
+  };
 
-  return moviesIdArr;
-};
+  getMovieIds = async (): Promise<number[]> => {
+    const movieList = await this.getAll();
+    const moviesIdArr = movieList.map((movie) => movie.id);
+
+    return moviesIdArr;
+  };
+}

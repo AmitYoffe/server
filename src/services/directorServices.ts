@@ -1,27 +1,34 @@
 import { DirectorDto } from "../dtos/directors/createDirectorDto";
 import { Director } from "../models/directorModel";
-import { create, edit, getAll } from "../repositories/directorRepository";
 
-export const getAllDirectors = async (
-  searchQuery?: string
-): Promise<Director[]> => {
-  return getAll(searchQuery);
-};
+export class DirectorService {
+  constructor(
+    private getAll: (searchQuery?: string) => Promise<Director[]>,
+    private create: (director: Director) => Promise<Director>,
+    private edit: (director: DirectorDto, id: number) => Promise<Director>
+  ) {
+    // this.getAll = getAll;
+    // this.create = create;
+    // this.edit = edit;
+  }
 
-export const createDirector = async (director: Director): Promise<Director> => {
-  return create(director);
-};
+  getAllDirectors = async (searchQuery?: string): Promise<Director[]> => {
+    return this.getAll(searchQuery);
+  }
 
-export const editDirector = async (
-  director: DirectorDto,
-  id: number
-): Promise<Director> => {
-  return edit(director, id);
-};
+  createDirector = async (director: Director): Promise<Director> => {
+    return this.create(director);
+  }
 
-export const getDirectorIds = async (): Promise<number[]> => {
-  const directorList = getAll();
-  const directorsIdArr = directorList.map((director) => director.id);
+  editDirector = async (
+    director: DirectorDto,
+    id: number
+  ): Promise<Director> => {
+    return this.edit(director, id);
+  }
 
-  return directorsIdArr;
-};
+  getDirectorIds = async (): Promise<number[]> => {
+    const directorList = await this.getAll();
+    return directorList.map((director) => director.id);
+  }
+}
