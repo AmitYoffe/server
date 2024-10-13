@@ -1,21 +1,25 @@
 // import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import express, { json } from "express";
+import { inject } from "inversify";
 import { DirectorController, MovieController } from "./controllers";
+// import container from "./inversify.config";
 import errorHandler from "./middlewares/error";
 
 class ExpressApp {
     private app: express.Application;
     private port: number;
-    private directorRouter: DirectorController;
+    // private directorController: DirectorController;
     private movieRouter: MovieController;
 
-    constructor() {
+    constructor(
+        @inject(DirectorController) private directorController: DirectorController
+    ) {
         dotenv.config();
 
         this.app = express();
         this.port = parseInt(process.env.PORT as string) || 3000;
-        this.directorRouter = new DirectorController();
+        // this.directorController = container.get(DirectorController)
         this.movieRouter = new MovieController();
 
         this.initializeRoutes();
@@ -26,7 +30,7 @@ class ExpressApp {
         this.app.get("/", (req, res) => {
             res.send("Hello World!");
         });
-        this.app.use("/directors", this.directorRouter.router);
+        this.app.use("/directors", this.directorController.router);
         this.app.use("/movies", this.movieRouter.router);
     }
 

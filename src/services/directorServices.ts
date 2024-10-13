@@ -1,7 +1,9 @@
+import { injectable } from "inversify";
 import { DirectorDto } from "../dtos/directors/createDirectorDto";
 import { Director } from "../models/directorModel";
 import { DirectorRepository } from "../repositories/directorRepository";
 
+@injectable()
 export class DirectorService {
   directorRepository = new DirectorRepository();
 

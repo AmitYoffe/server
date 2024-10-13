@@ -6,12 +6,15 @@ import loggerHandler from "../middlewares/loggerHandler";
 import validationErrorHandler from "../middlewares/validationErrorHandler";
 import { DirectorService } from "../services/directorServices";
 import { directorBaseValidator, directorEditValidator } from "../validations";
+import { inject } from "inversify";
 
 export class DirectorController {
   router = Router();
-  directorService = new DirectorService();
+  // directorService = new DirectorService();
 
-  constructor() {
+  constructor(
+    @inject(DirectorService) private service: DirectorService
+  ) {
     this.initializeRoute();
   }
 
@@ -35,7 +38,7 @@ export class DirectorController {
 
   async get(req: Request, res: Response) {
     const searchQuery = req.params.search;
-    const directors = await this.directorService.getAllDirectors(searchQuery);
+    const directors = await this.service.getAllDirectors(searchQuery);
 
     res.json(directors);
   }
@@ -48,14 +51,14 @@ export class DirectorController {
       return validationErrorHandler(errors, res);
     }
 
-    const director = await this.directorService.createDirector(req.body);
+    const director = await this.service.createDirector(req.body);
     res.status(StatusCodes.CREATED).json(director);
     // fix logic, singular id field created in db even when validations fails !
   }
 
   async patch(req: Request, res: Response) {
     const updatedDirectorId = Number(req.params.id);
-    const director = await this.directorService.editDirector(req.body, updatedDirectorId);
+    const director = await this.service.editDirector(req.body, updatedDirectorId);
 
     res.status(StatusCodes.PARTIAL_CONTENT).json(director);
   }

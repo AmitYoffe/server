@@ -1,8 +1,10 @@
 import fs from "fs";
+import { injectable } from "inversify";
 import path from "path";
 import { DirectorDto } from "../dtos/directors/createDirectorDto";
 import { Director } from "../models/directorModel";
 
+@injectable()
 export class DirectorRepository {
   private directorsFilePath = path.resolve("./database/directors.json");
 
