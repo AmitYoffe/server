@@ -3,13 +3,11 @@ import dotenv from "dotenv";
 import express, { json } from "express";
 import { inject } from "inversify";
 import { DirectorController, MovieController } from "./controllers";
-// import container from "./inversify.config";
 import errorHandler from "./middlewares/error";
 
 class ExpressApp {
     private app: express.Application;
     private port: number;
-    // private directorController: DirectorController;
     private movieRouter: MovieController;
 
     constructor(
@@ -19,7 +17,6 @@ class ExpressApp {
 
         this.app = express();
         this.port = parseInt(process.env.PORT as string) || 3000;
-        // this.directorController = container.get(DirectorController)
         this.movieRouter = new MovieController();
 
         this.initializeRoutes();

@@ -1,3 +1,4 @@
+import container from "../../inversify.config";
 import { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator";
 import { StatusCodes } from "http-status-codes";
@@ -11,7 +12,7 @@ export const checkDirectorId = async (
   const errors = validationResult(req);
   const updatedDirectorId = Number(req.params.id);
 
-  const directorService = new DirectorService();
+  const directorService = container.get(DirectorService)
   const directorsIdArr = await directorService.getDirectorIds();
 
   if (!errors.isEmpty()) {

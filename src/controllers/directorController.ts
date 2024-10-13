@@ -1,16 +1,16 @@
 import { Request, Response, Router } from "express";
 import { checkSchema, validationResult } from "express-validator";
 import { StatusCodes } from "http-status-codes";
+import { inject, injectable } from "inversify";
 import { checkDirectorId } from "../middlewares/directors/checkDirectorId";
 import loggerHandler from "../middlewares/loggerHandler";
 import validationErrorHandler from "../middlewares/validationErrorHandler";
 import { DirectorService } from "../services/directorServices";
 import { directorBaseValidator, directorEditValidator } from "../validations";
-import { inject } from "inversify";
 
+@injectable()
 export class DirectorController {
   router = Router();
-  // directorService = new DirectorService();
 
   constructor(
     @inject(DirectorService) private service: DirectorService

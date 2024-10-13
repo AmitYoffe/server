@@ -1,6 +1,11 @@
+import "reflect-metadata";
+import container from "./inversify.config";
+import { DirectorController } from "./controllers/directorController";
 import ExpressApp from "./expressApp";
 
-// DirectorController 
 // MovieController
-const myApp = new ExpressApp();
-myApp.listen();
+
+const directorController = container.get(DirectorController)
+
+const app = new ExpressApp(directorController);
+app.listen();

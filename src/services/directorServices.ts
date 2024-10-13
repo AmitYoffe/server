@@ -1,11 +1,13 @@
-import { injectable } from "inversify";
+import { inject, injectable } from "inversify";
 import { DirectorDto } from "../dtos/directors/createDirectorDto";
 import { Director } from "../models/directorModel";
 import { DirectorRepository } from "../repositories/directorRepository";
 
 @injectable()
 export class DirectorService {
-  directorRepository = new DirectorRepository();
+  constructor(
+    @inject(DirectorRepository) private directorRepository: DirectorRepository
+  ) { }
 
   getAllDirectors = async (searchQuery?: string): Promise<Director[]> => {
     return this.directorRepository.getAll(searchQuery);
