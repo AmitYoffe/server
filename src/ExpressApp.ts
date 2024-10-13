@@ -1,22 +1,22 @@
 // import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import express, { json } from "express";
-import { DirectorRouter, MovieRouter } from "./controllers";
+import { DirectorController, MovieController } from "./controllers";
 import errorHandler from "./middlewares/error";
 
 class ExpressApp {
     private app: express.Application;
     private port: number;
-    private directorRouter: DirectorRouter;
-    private movieRouter: MovieRouter;
+    private directorRouter: DirectorController;
+    private movieRouter: MovieController;
 
     constructor() {
         dotenv.config();
 
         this.app = express();
         this.port = parseInt(process.env.PORT as string) || 3000;
-        this.directorRouter = new DirectorRouter();
-        this.movieRouter = new MovieRouter();
+        this.directorRouter = new DirectorController();
+        this.movieRouter = new MovieController();
 
         this.initializeRoutes();
         this.useMiddleware();

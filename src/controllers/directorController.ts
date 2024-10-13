@@ -4,13 +4,12 @@ import { StatusCodes } from "http-status-codes";
 import { checkDirectorId } from "../middlewares/directors/checkDirectorId";
 import loggerHandler from "../middlewares/loggerHandler";
 import validationErrorHandler from "../middlewares/validationErrorHandler";
-import { create, edit, getAll } from "../repositories/directorRepository";
 import { DirectorService } from "../services/directorServices";
 import { directorBaseValidator, directorEditValidator } from "../validations";
 
-export class DirectorRouter {
+export class DirectorController {
   router = Router();
-  directorService = new DirectorService(getAll, create, edit);
+  directorService = new DirectorService();
 
   constructor() {
     this.initializeRoute();

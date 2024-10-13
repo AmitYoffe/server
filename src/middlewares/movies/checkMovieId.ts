@@ -1,8 +1,7 @@
-import { Request, Response, NextFunction } from "express";
+import { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator";
-import { MovieService } from "../../services/movieServices";
 import { StatusCodes } from "http-status-codes";
-import { create, edit, getAll } from "../../repositories/movieRepository";
+import { MovieService } from "../../services/movieServices";
 
 export const checkMovieId = async (
   req: Request,
@@ -12,7 +11,7 @@ export const checkMovieId = async (
   const errors = validationResult(req);
   const updatedMovieId = Number(req.params.id);
 
-  const movieService = new MovieService(getAll, create, edit);
+  const movieService = new MovieService();
   const moviesIdArr = await movieService.getMovieIds();
 
   if (!errors.isEmpty()) {

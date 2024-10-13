@@ -4,13 +4,12 @@ import { StatusCodes } from "http-status-codes";
 import loggerHandler from "../middlewares/loggerHandler";
 import { checkMovieId } from "../middlewares/movies/checkMovieId";
 import validationErrorHandler from "../middlewares/validationErrorHandler";
-import { create, edit, getAll } from "../repositories/movieRepository";
 import { MovieService } from "../services/movieServices";
 import { movieBaseValidator, movieEditValidator } from "../validations";
 
-export class MovieRouter {
+export class MovieController {
   router = Router();
-  movieService = new MovieService(getAll, create, edit)
+  movieService = new MovieService()
 
   constructor() {
     this.initializeRoutes();
