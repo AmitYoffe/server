@@ -2,7 +2,7 @@ import { Request, Response, Router } from "express";
 import { checkSchema, validationResult } from "express-validator";
 import { StatusCodes } from "http-status-codes";
 import { inject, injectable } from "inversify";
-import { loggerHandler, validationErrorHandler, checkMovieId } from "../middlewares";
+import { checkMovieId, validationErrorHandler } from "../middlewares";
 import { MovieService } from "../services/movieServices";
 import { movieBaseValidator, movieEditValidator } from "../validations";
 
@@ -17,16 +17,14 @@ export class MovieController {
   }
 
   private initializeRoutes() {
-    this.router.get("/:search?", loggerHandler, this.get.bind(this));
+    this.router.get("/:search?", this.get.bind(this));
     this.router.post(
       "/",
-      loggerHandler,
       checkSchema(movieBaseValidator),
       this.post.bind(this)
     );
     this.router.patch(
       "/",
-      loggerHandler,
       checkSchema(movieEditValidator),
       checkMovieId,
       this.patch.bind(this)
@@ -55,5 +53,3 @@ export class MovieController {
     res.status(StatusCodes.CREATED).json(movie);
   }
 }
-
-// patch and post methods do not work because req.body come as undefined... :(

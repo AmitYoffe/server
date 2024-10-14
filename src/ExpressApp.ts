@@ -1,9 +1,8 @@
-import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import express from "express";
 import { inject } from "inversify";
 import { DirectorController, MovieController } from "./controllers";
-import errorHandler from "./middlewares/error";
+import { loggerHandler, errorHandler } from "./middlewares";
 
 class ExpressApp {
     private app: express.Application;
@@ -30,8 +29,7 @@ class ExpressApp {
         });
 
         this.app.use(errorHandler);
-
-        // this.app.use(loggerHandler); // this doesn't make a difference
+        this.app.use(loggerHandler);
         // add validations here not down in the code
     }
 

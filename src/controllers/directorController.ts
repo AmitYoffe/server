@@ -2,7 +2,7 @@ import { Request, Response, Router } from "express";
 import { checkSchema, validationResult } from "express-validator";
 import { StatusCodes } from "http-status-codes";
 import { inject, injectable } from "inversify";
-import { checkDirectorId, loggerHandler, validationErrorHandler } from "../middlewares";
+import { checkDirectorId, validationErrorHandler } from "../middlewares";
 import { DirectorService } from "../services/directorServices";
 import { directorBaseValidator, directorEditValidator } from "../validations";
 
@@ -17,16 +17,14 @@ export class DirectorController {
   }
 
   initializeRoute() {
-    this.router.get("/:search?", loggerHandler, this.get.bind(this));
+    this.router.get("/:search?", this.get.bind(this));
     this.router.post(
       "/",
-      loggerHandler,
       checkSchema(directorBaseValidator),
       this.post.bind(this)
     );
     this.router.patch(
       "/:id",
-      loggerHandler,
       checkSchema(directorEditValidator),
       checkDirectorId,
       this.patch.bind(this)
@@ -45,7 +43,7 @@ export class DirectorController {
 
     if (!errors.isEmpty()) {
       return validationErrorHandler(errors, res);
-    } 
+    }
 
     const director = await this.service.createDirector(req.body);
     res.status(StatusCodes.CREATED).json(director);
@@ -54,7 +52,7 @@ export class DirectorController {
 
   async patch(req: Request, res: Response) {
     const updatedDirectorId = Number(req.params.id);
-    
+
     const director = await this.service.editDirector(req.body, updatedDirectorId);
 
     res.status(StatusCodes.PARTIAL_CONTENT).json(director);
