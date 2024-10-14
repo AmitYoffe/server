@@ -13,7 +13,23 @@ export const validationHandler = (
     return res.status(StatusCodes.BAD_REQUEST).json({ errors: errors.array() });
   }
 
+  // validation for url doesn't work...
+  const validSearchParam = /^[a-zA-Z0-9]*$/;
+  if (req.method === "GET" && req.params.search) {
+    const searchQuery = req.params.search;
+    console.log(`Search Query: ${searchQuery}`);
+    if (!validSearchParam.test(searchQuery)) {
+      return res.status(StatusCodes.BAD_REQUEST).json({
+        errors: [
+          {
+            msg: "Invalid search query. Only numbers and strings are allowed.",
+            value: searchQuery,
+          },
+        ],
+      });
+    }
+  }
+
   next();
-  // There should also be a validation for the the url and not just the req.body
-  // check what can i do about it
+  // should i add some validation for the url params as well?
 };
