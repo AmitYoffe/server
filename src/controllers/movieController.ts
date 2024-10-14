@@ -47,6 +47,7 @@ export class MovieController {
     res.status(StatusCodes.CREATED).json(movie);
   }
 
+  // patching movies doesn't work
   async patch(req: Request, res: Response) {
     const updatedMovieId = Number(req.params.id);
     const movie = await this.service.editMovie(req.body, updatedMovieId);

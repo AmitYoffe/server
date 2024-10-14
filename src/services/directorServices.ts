@@ -1,7 +1,9 @@
+import { StatusCodes } from "http-status-codes";
 import { inject, injectable } from "inversify";
 import { DirectorDto } from "../dtos/directors/createDirectorDto";
 import { Director } from "../models/directorModel";
 import { DirectorRepository } from "../repositories/directorRepository";
+import { Response } from "express";
 
 @injectable()
 export class DirectorService {
@@ -19,8 +21,16 @@ export class DirectorService {
 
   editDirector = async (
     director: DirectorDto,
-    id: number
-  ): Promise<Director> => {
+    id: number,
+    res: Response
+  ): Promise<Director | Response<any>> => {
+    const idValidationError = await this.checkDirectorId(id);
+
+    if (idValidationError) {
+      return res.status(idValidationError.status).json({
+        message: idValidationError.message,
+      });
+    }
     return this.directorRepository.edit(director, id);
   }
 
@@ -29,7 +39,20 @@ export class DirectorService {
     return directorList.map((director) => director.id);
   }
 
-  checkMovieId = async () => {
-    // 
-  }
+  checkDirectorId = async (
+    updatedDirectorId: number
+  ) => {
+    const directorsIdArr = await this.getDirectorIds();
+
+    if (!directorsIdArr.includes(updatedDirectorId)) {
+      return {
+        status: StatusCodes.NOT_FOUND,
+        message: `Director with id of ${updatedDirectorId} not found`,
+      };
+    }
+
+    return null;
+  };
 }
+
+// rename all methods to generic names (( checkDirectorId => checkId )) and so on...
