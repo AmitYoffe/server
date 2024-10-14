@@ -1,6 +1,6 @@
 import bodyParser from "body-parser";
 import dotenv from "dotenv";
-import express, { json } from "express";
+import express from "express";
 import { inject } from "inversify";
 import { DirectorController, MovieController } from "./controllers";
 import errorHandler from "./middlewares/error";
@@ -18,8 +18,21 @@ class ExpressApp {
         this.app = express();
         this.port = parseInt(process.env.PORT as string) || 3000;
 
-        this.initializeRoutes();
         this.useMiddleware();
+        this.initializeRoutes();
+    }
+
+    private useMiddleware() {
+        this.app.use(express.json());
+        this.app.use((req, res, next) => {
+            console.log('req.body of express app:', req.body);
+            next();
+        });
+
+        this.app.use(errorHandler);
+
+        // this.app.use(loggerHandler); // this doesn't make a difference
+        // add validations here not down in the code
     }
 
     private initializeRoutes() {
@@ -28,14 +41,6 @@ class ExpressApp {
         });
         this.app.use("/directors", this.directorController.router);
         this.app.use("/movies", this.movieController.router);
-    }
-
-    private useMiddleware() {
-        // this.app.use(loggerHandler); // this doesn't make a difference
-        // add validations here not down in the code
-        // this.app.use(json()); // do i need this if i have a body parser?
-        this.app.use(bodyParser.json());
-        this.app.use(errorHandler);
     }
 
     listen() {

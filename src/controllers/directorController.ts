@@ -42,11 +42,10 @@ export class DirectorController {
 
   async post(req: Request, res: Response) {
     const errors = validationResult(req);
-    console.log(`req.body: ${JSON.stringify(req.body)}`);
 
     if (!errors.isEmpty()) {
       return validationErrorHandler(errors, res);
-    }
+    } 
 
     const director = await this.service.createDirector(req.body);
     res.status(StatusCodes.CREATED).json(director);
@@ -55,7 +54,6 @@ export class DirectorController {
 
   async patch(req: Request, res: Response) {
     const updatedDirectorId = Number(req.params.id);
-    // console.log('req.body');
     
     const director = await this.service.editDirector(req.body, updatedDirectorId);
 
