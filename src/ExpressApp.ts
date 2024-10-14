@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 import express from "express";
 import { inject } from "inversify";
 import { DirectorController, MovieController } from "./controllers";
-import { loggerHandler, errorHandler } from "./middlewares";
+import { loggerHandler, errorHandler, validationHandler } from "./middlewares";
 
 class ExpressApp {
   private app: express.Application;
@@ -25,8 +25,7 @@ class ExpressApp {
     this.app.use(express.json());
     this.app.use(errorHandler);
     this.app.use(loggerHandler);
-
-    // add validations here not down in the code
+    // this.app.use(validationHandler);
   }
 
   private initializeRoutes() {

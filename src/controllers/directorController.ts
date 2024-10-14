@@ -1,16 +1,17 @@
 import { Request, Response, Router } from "express";
-import { checkSchema, validationResult } from "express-validator";
+import { checkSchema } from "express-validator";
 import { StatusCodes } from "http-status-codes";
 import { inject, injectable } from "inversify";
-import { validationErrorHandler } from "../middlewares";
+import { validationHandler } from "../middlewares";
 import { DirectorService } from "../services/directorServices";
 import { directorBaseValidator, directorEditValidator } from "../validations";
 
 @injectable()
 export class DirectorController {
-  router = Router();
-
-  constructor(@inject(DirectorService) private service: DirectorService) {
+  constructor(
+    @inject(DirectorService) private service: DirectorService,
+    public router = Router()
+  ) {
     this.initializeRoute();
   }
 
@@ -19,11 +20,13 @@ export class DirectorController {
     this.router.post(
       "/",
       checkSchema(directorBaseValidator),
+      validationHandler,
       this.post.bind(this)
     );
     this.router.patch(
       "/:id",
       checkSchema(directorEditValidator),
+      validationHandler,
       this.patch.bind(this)
     );
   }
@@ -36,12 +39,6 @@ export class DirectorController {
   }
 
   async post(req: Request, res: Response) {
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-      return validationErrorHandler(errors, res);
-    }
-
     const director = await this.service.create(req.body);
     res.status(StatusCodes.CREATED).json(director);
   }

@@ -8,8 +8,8 @@ import ExpressApp from "./expressApp";
 // import "reflect-metadata";
 // import container from "./inversify.config";
 
-const directorController = container.get(DirectorController)
-const movieController = container.get(MovieController)
+const directorController = container.get(DirectorController);
+const movieController = container.get(MovieController);
 
 const app = new ExpressApp(directorController, movieController);
 app.listen();

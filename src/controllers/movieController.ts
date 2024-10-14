@@ -1,16 +1,17 @@
 import { Request, Response, Router } from "express";
-import { checkSchema, validationResult } from "express-validator";
+import { checkSchema } from "express-validator";
 import { StatusCodes } from "http-status-codes";
 import { inject, injectable } from "inversify";
-import { validationErrorHandler } from "../middlewares";
+import { validationHandler } from "../middlewares";
 import { MovieService } from "../services/movieServices";
 import { movieBaseValidator, movieEditValidator } from "../validations";
 
 @injectable()
 export class MovieController {
-  router = Router();
-
-  constructor(@inject(MovieService) private service: MovieService) {
+  constructor(
+    @inject(MovieService) private service: MovieService,
+    public router = Router()
+  ) {
     this.initializeRoutes();
   }
 
@@ -19,11 +20,13 @@ export class MovieController {
     this.router.post(
       "/",
       checkSchema(movieBaseValidator),
+      validationHandler,
       this.post.bind(this)
     );
     this.router.patch(
       "/:id",
       checkSchema(movieEditValidator),
+      validationHandler,
       this.patch.bind(this)
     );
   }
@@ -36,13 +39,6 @@ export class MovieController {
   }
 
   async post(req: Request, res: Response) {
-    // move this to use middleware 44- 47
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-      return validationErrorHandler(errors, res);
-    }
-
     const movie = await this.service.create(req.body);
     res.status(StatusCodes.CREATED).json(movie);
   }
