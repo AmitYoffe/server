@@ -33,17 +33,25 @@ export class MovieRepository {
 
     const newMovie = { ...movieInfo, id: newId };
     movies.push(newMovie);
-    fs.writeFileSync(this.moviesFilePath, JSON.stringify(movies, null, 2), "utf-8");
+    fs.writeFileSync(
+      this.moviesFilePath,
+      JSON.stringify(movies, null, 2),
+      "utf-8"
+    );
 
     return newMovie;
-  }
+  };
 
   edit = async (updatedMovie: MovieDto, id: number): Promise<Movie> => {
     const movies = await this.getAll();
     const movieIndex = movies.findIndex((movie) => movie.id === id);
     movies[movieIndex] = { ...movies[movieIndex], ...updatedMovie };
-    fs.writeFileSync(this.moviesFilePath, JSON.stringify(movies, null, 2), "utf-8");
+    fs.writeFileSync(
+      this.moviesFilePath,
+      JSON.stringify(movies, null, 2),
+      "utf-8"
+    );
 
     return movies[movieIndex];
-  }
+  };
 }

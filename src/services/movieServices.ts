@@ -1,37 +1,57 @@
+import { StatusCodes } from "http-status-codes";
 import { inject, injectable } from "inversify";
 import { MovieDto } from "../dtos/movies/createMovieDto";
 import { Movie } from "../models/movieModel";
 import { MovieRepository } from "../repositories/movieRepository";
+import { Response } from "express";
 
 @injectable()
 export class MovieService {
   constructor(
     @inject(MovieRepository) private movieRepository: MovieRepository
-  ) { }
+  ) {}
 
-  getAllMovies = async (searchQuery?: string): Promise<Movie[]> => {
+  getAll = async (searchQuery?: string): Promise<Movie[]> => {
     return this.movieRepository.getAll(searchQuery);
-  }
+  };
 
-  createMovie = async (movie: Movie): Promise<Movie> => {
+  create = async (movie: Movie): Promise<Movie> => {
     return this.movieRepository.create(movie);
   };
 
-  editMovie = async (
+  edit = async (
     movie: MovieDto,
-    id: number
-  ): Promise<Movie> => {
+    id: number,
+    res: Response
+  ): Promise<Movie | Response<any>> => {
+    const idValidationError = await this.checkId(id);
+
+    if (idValidationError) {
+      return res.status(idValidationError.status).json({
+        message: idValidationError.message,
+      });
+    }
+
     return this.movieRepository.edit(movie, id);
   };
 
-  getMovieIds = async (): Promise<number[]> => {
+  getIds = async (): Promise<number[]> => {
     const movieList = await this.movieRepository.getAll();
     const moviesIdArr = movieList.map((movie) => movie.id);
 
     return moviesIdArr;
   };
 
-  checkMovieId = async () => {
-    // 
-  }
+  checkId = async (updatedMovieId: number) => {
+    const moviesIdArr = await this.getIds();
+
+    if (!moviesIdArr.includes(updatedMovieId)) {
+      return {
+        status: StatusCodes.NOT_FOUND,
+        message: `Movie with id of ${updatedMovieId} not found`,
+      };
+    }
+
+    return null;
+  };
 }

@@ -10,9 +10,7 @@ import { directorBaseValidator, directorEditValidator } from "../validations";
 export class DirectorController {
   router = Router();
 
-  constructor(
-    @inject(DirectorService) private service: DirectorService
-  ) {
+  constructor(@inject(DirectorService) private service: DirectorService) {
     this.initializeRoute();
   }
 
@@ -32,7 +30,7 @@ export class DirectorController {
 
   async get(req: Request, res: Response) {
     const searchQuery = req.params.search;
-    const directors = await this.service.getAllDirectors(searchQuery);
+    const directors = await this.service.getAll(searchQuery);
 
     res.json(directors);
   }
@@ -44,14 +42,13 @@ export class DirectorController {
       return validationErrorHandler(errors, res);
     }
 
-    const director = await this.service.createDirector(req.body);
+    const director = await this.service.create(req.body);
     res.status(StatusCodes.CREATED).json(director);
-    // fix logic, singular id field created in db even when validations fails !
   }
 
   async patch(req: Request, res: Response) {
     const updatedDirectorId = Number(req.params.id);
-    const director = await this.service.editDirector(req.body, updatedDirectorId, res);
+    const director = await this.service.edit(req.body, updatedDirectorId, res);
 
     res.status(StatusCodes.PARTIAL_CONTENT).json(director);
   }

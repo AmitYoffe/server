@@ -9,40 +9,41 @@ import { Response } from "express";
 export class DirectorService {
   constructor(
     @inject(DirectorRepository) private directorRepository: DirectorRepository
-  ) { }
+  ) {}
 
-  getAllDirectors = async (searchQuery?: string): Promise<Director[]> => {
+  getAll = async (searchQuery?: string): Promise<Director[]> => {
     return this.directorRepository.getAll(searchQuery);
-  }
+  };
 
-  createDirector = async (director: Director): Promise<Director> => {
+  create = async (director: Director): Promise<Director> => {
     return this.directorRepository.create(director);
-  }
+  };
 
-  editDirector = async (
+  edit = async (
     director: DirectorDto,
     id: number,
     res: Response
   ): Promise<Director | Response<any>> => {
-    const idValidationError = await this.checkDirectorId(id);
+    const idValidationError = await this.checkId(id);
 
     if (idValidationError) {
       return res.status(idValidationError.status).json({
         message: idValidationError.message,
       });
     }
+
     return this.directorRepository.edit(director, id);
-  }
+  };
 
-  getDirectorIds = async (): Promise<number[]> => {
+  getIds = async (): Promise<number[]> => {
     const directorList = await this.directorRepository.getAll();
-    return directorList.map((director) => director.id);
-  }
+    const directorIdArr = directorList.map((director) => director.id);
 
-  checkDirectorId = async (
-    updatedDirectorId: number
-  ) => {
-    const directorsIdArr = await this.getDirectorIds();
+    return directorIdArr;
+  };
+
+  checkId = async (updatedDirectorId: number) => {
+    const directorsIdArr = await this.getIds();
 
     if (!directorsIdArr.includes(updatedDirectorId)) {
       return {
@@ -54,5 +55,3 @@ export class DirectorService {
     return null;
   };
 }
-
-// rename all methods to generic names (( checkDirectorId => checkId )) and so on...

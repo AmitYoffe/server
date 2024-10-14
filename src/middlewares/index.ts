@@ -1,5 +1,3 @@
-export * from "./movies/checkMovieId"
-export * from "./loggerHandler"
-export * from "./validationErrorHandler"
-export * from "./error"
-
+export * from "./loggerHandler";
+export * from "./validationErrorHandler";
+export * from "./error";
