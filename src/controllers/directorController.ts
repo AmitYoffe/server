@@ -29,6 +29,7 @@ export class DirectorController {
       validationHandler,
       this.patch.bind(this)
     );
+    this.router.delete("/:id", this.delete.bind(this));
   }
 
   async get(req: Request, res: Response) {
@@ -48,5 +49,9 @@ export class DirectorController {
     const director = await this.service.edit(req.body, updatedDirectorId, res);
 
     res.status(StatusCodes.PARTIAL_CONTENT).json(director);
+  }
+
+  async delete(req: Request, res: Response) {
+    // add deletion controller logic 
   }
 }

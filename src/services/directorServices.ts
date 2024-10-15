@@ -54,4 +54,16 @@ export class DirectorService {
 
     return null;
   };
+
+  delete = async (id: number) => {
+    const idExists = this.checkId(id) // return boolean value
+    if (!idExists) {
+      return {
+        status: StatusCodes.NOT_FOUND,
+        message: `Director with id of ${id} not found`,
+      };
+    } // do i really need this logic again if it's occuring in checkId?
+    
+    this.directorRepository.delete(id)
+  }
 }

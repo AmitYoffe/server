@@ -58,4 +58,8 @@ export class DirectorRepository {
 
     return directors[directorIndex];
   }
+
+  delete = async (id: number): Promise<void> => {
+    // deletion logic
+  }
 }
