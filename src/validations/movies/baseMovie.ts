@@ -24,5 +24,12 @@ export const movieBaseValidator: Schema = {
     isNumeric: {
       errorMessage: "Year must be a number",
     },
+    isInt: {
+      options: {
+        min: 1888, 
+        max: new Date().getFullYear(), 
+      },
+      errorMessage: `Year must be an integer between 1888 and ${new Date().getFullYear()}.`,
+    },
   },
 };

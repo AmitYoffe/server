@@ -1,16 +1,36 @@
 import { Schema } from "express-validator";
-import { directorBaseValidator } from "./baseDirector";
 
 export const directorEditValidator: Schema = {
   id: {
     notEmpty: {
-      errorMessage: "ID can't be left empty",
+      errorMessage: "ID can't be left empty !",
     },
   },
-  ...directorBaseValidator,
+  firstName: {
+    optional: true,
+    isLength: {
+      options: { min: 2 },
+      errorMessage: "First name should be at least 2 chars",
+    },
+    matches: {
+      options: /^[a-z ,.'-]+$/i,
+      errorMessage:
+        "First name must start with a letter and contain only alphabetic or numeric chars.",
+    },
+  },
+  lastName: {
+    optional: true,
+    isLength: {
+      options: { min: 2 },
+      errorMessage: "First name should be at least 2 chars",
+    },
+    matches: {
+      options: /^[a-z ,.'-]+$/i,
+      errorMessage:
+        "First name must start with a letter and contain only alphabetic or numeric chars.",
+    },
+  },
+  movies: {
+    optional: true,
+  },
 };
-
-// logic fix:
-// the base validation schema is used for creation and patching, so in creation all fields are mandatory, in patching none are.
-// so i need to somehow remove the 'notEmpty' option of the base schema when using it in the edit schema.
-// or just make another one
