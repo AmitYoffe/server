@@ -8,7 +8,6 @@ import { Movie } from "../models/movieModel";
 export class MovieRepository {
   moviesFilePath = path.resolve("./database/movies.json");
 
-  // add search type so it can include strings, numbers and so on
   getAll = async (searchQuery?: string): Promise<Movie[]> => {
     const movies = fs.readFileSync(this.moviesFilePath, "utf-8");
     const movieList = JSON.parse(movies);

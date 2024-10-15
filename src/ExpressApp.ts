@@ -25,7 +25,6 @@ class ExpressApp {
     this.app.use(express.json());
     this.app.use(errorHandler);
     this.app.use(loggerHandler);
-    // this.app.use(validationHandler);
   }
 
   private initializeRoutes() {
