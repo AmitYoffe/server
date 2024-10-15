@@ -30,6 +30,31 @@ export const validationHandler = (
     }
   }
 
+  if (req.method === "PATCH") {
+    const idParam = req.params.id;
+    if (idParam === undefined || idParam.trim() === "") {
+      return res.status(StatusCodes.BAD_REQUEST).json({
+        errors: [
+          {
+            msg: "ID param in URL is required for patching.",
+          },
+        ],
+      });
+    }
+
+    const id = Number(idParam);
+    if (isNaN(id)) {
+      return res.status(StatusCodes.BAD_REQUEST).json({
+        errors: [
+          {
+            msg: "Invalid ID param. ID must be a number.",
+            value: id,
+          },
+        ],
+      });
+    }
+
+  }
+
   next();
-  // should i add some validation for the url params as well?
 };
