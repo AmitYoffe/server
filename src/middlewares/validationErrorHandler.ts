@@ -13,23 +13,6 @@ export const validationHandler = (
     return res.status(StatusCodes.BAD_REQUEST).json({ errors: errors.array() });
   }
 
-  // validation for url doesn't work...
-  const validSearchParam = /^[a-zA-Z0-9]*$/;
-  if (req.method === "GET" && req.params.search) {
-    const searchQuery = req.params.search;
-    console.log(`Search Query: ${searchQuery}`);
-    if (!validSearchParam.test(searchQuery)) {
-      return res.status(StatusCodes.BAD_REQUEST).json({
-        errors: [
-          {
-            msg: "Invalid search query. Only numbers and strings are allowed.",
-            value: searchQuery,
-          },
-        ],
-      });
-    }
-  }
-
   if (req.method === "PATCH") {
     const idParam = req.params.id;
     if (idParam === undefined || idParam.trim() === "") {
@@ -53,7 +36,6 @@ export const validationHandler = (
         ],
       });
     }
-
   }
 
   next();
