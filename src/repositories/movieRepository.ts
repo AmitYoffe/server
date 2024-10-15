@@ -21,7 +21,7 @@ export class MovieRepository {
     return movieList;
   };
 
-  create = async (movieInfo: Movie): Promise<Movie> => {
+  create = async (movieInfo: MovieDto): Promise<Movie> => {
     const movies = await this.getAll();
 
     let newId = 1;
@@ -31,7 +31,7 @@ export class MovieRepository {
       }
     }
 
-    const newMovie = { ...movieInfo, id: newId };
+    const newMovie = { id: newId, ...movieInfo };
     movies.push(newMovie);
     fs.writeFileSync(
       this.moviesFilePath,

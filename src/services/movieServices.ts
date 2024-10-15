@@ -1,21 +1,21 @@
+import { Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import { inject, injectable } from "inversify";
 import { MovieDto } from "../dtos/movies/createMovieDto";
 import { Movie } from "../models/movieModel";
 import { MovieRepository } from "../repositories/movieRepository";
-import { Response } from "express";
 
 @injectable()
 export class MovieService {
   constructor(
     @inject(MovieRepository) private movieRepository: MovieRepository
-  ) {}
+  ) { }
 
   getAll = async (searchQuery?: string): Promise<Movie[]> => {
     return this.movieRepository.getAll(searchQuery);
   };
 
-  create = async (movie: Movie): Promise<Movie> => {
+  create = async (movie: MovieDto): Promise<MovieDto> => {
     return this.movieRepository.create(movie);
   };
 

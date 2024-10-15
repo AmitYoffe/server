@@ -10,5 +10,21 @@
     "firstName": "Bibi",
     "lastName": "Netanyahu",
     "movies": []
+  },
+  {
+    "id": 3,
+    "firstName": "Bibi the second",
+    "lastName": "Netanyahu sdgsg",
+    "movies": [
+      "waafas asa sd gsdgsd f"
+    ]
+  },
+  {
+    "id": 4,
+    "firstName": "Bibi the second",
+    "lastName": "Netanyahu sdgsg",
+    "movies": [
+      "waafas asa sd gsdgsd f"
+    ]
   }
 ]

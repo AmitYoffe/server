@@ -23,9 +23,7 @@ export class DirectorRepository {
     return directorList;
   }
 
-  // id like the id to be created at the top of the object,
-  // currently its created at the botom line
-  create = async (directorInfo: Director): Promise<Director> => {
+  create = async (directorInfo: DirectorDto): Promise<Director> => {
     const directors = await this.getAll();
     let newId = 1;
     for (const existingDirector of directors) {
@@ -34,7 +32,7 @@ export class DirectorRepository {
       }
     }
 
-    const newDirector = { ...directorInfo, id: newId };
+    const newDirector = { id: newId, ...directorInfo };
     directors.push(newDirector);
     fs.writeFileSync(
       this.directorsFilePath,
