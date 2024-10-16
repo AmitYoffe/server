@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 import express from "express";
 import { inject } from "inversify";
 import { DirectorController, MovieController } from "./controllers";
-import { loggerHandler, errorHandler, validationHandler } from "./middlewares";
+import { errorHandler, loggerHandler } from "./middlewares";
 
 class ExpressApp {
   private app: express.Application;
