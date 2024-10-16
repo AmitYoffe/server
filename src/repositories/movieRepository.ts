@@ -54,4 +54,17 @@ export class MovieRepository {
 
     return movies[movieIndex];
   };
+
+  delete = async (id: number): Promise<Movie[]> => {
+    const movices = await this.getAll();
+    const updatedMovies = movices.filter(movie => movie.id !== id);
+
+    fs.writeFileSync(
+      this.moviesFilePath,
+      JSON.stringify(updatedMovies, null, 2),
+      "utf-8"
+    );
+
+    return movices;
+  }
 }

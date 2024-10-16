@@ -13,5 +13,4 @@ a) On top of the pictures i have in my phone,
 i need to make an additional page that shows all directors in the frontend project,
 similar to how it shows all movies ( optional ).
 
-b) add deletion logic for directors & movies ( Optional )
-c) make the last shiftsurim!
+b) make the last shiftsurim!

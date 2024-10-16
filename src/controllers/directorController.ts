@@ -36,7 +36,7 @@ export class DirectorController {
     const searchQuery = req.params.search;
     const directors = await this.service.getAll(searchQuery);
 
-    res.json(directors);
+    res.status(StatusCodes.OK).json(directors);
   }
 
   async post(req: Request, res: Response) {
@@ -52,6 +52,13 @@ export class DirectorController {
   }
 
   async delete(req: Request, res: Response) {
-    // add deletion controller logic 
+    const directorId = Number(req.params.id);
+    const isDeleted = await this.service.delete(directorId, res);
+
+    if (isDeleted) {
+        res.status(StatusCodes.OK).json({
+            message: `Deleted director with id of ${directorId}.`
+        });
+    }
   }
 }

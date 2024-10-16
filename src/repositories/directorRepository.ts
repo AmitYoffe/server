@@ -59,7 +59,16 @@ export class DirectorRepository {
     return directors[directorIndex];
   }
 
-  delete = async (id: number): Promise<void> => {
-    // deletion logic
+  delete = async (id: number): Promise<Director[]> => {
+    const directors = await this.getAll();
+    const updatedDirectors = directors.filter(director => director.id !== id);
+
+    fs.writeFileSync(
+      this.directorsFilePath,
+      JSON.stringify(updatedDirectors, null, 2),
+      "utf-8"
+    );
+
+    return directors;
   }
 }

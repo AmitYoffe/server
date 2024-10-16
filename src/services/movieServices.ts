@@ -54,4 +54,18 @@ export class MovieService {
 
     return null;
   };
+
+  delete = async (id: number, res: Response) => {
+    const idValidationError = await this.checkId(id);
+    if (idValidationError) {
+      res.status(idValidationError.status).json({
+        message: idValidationError.message,
+      })
+      return false;
+      ;
+    }
+
+    await this.movieRepository.delete(id)
+    return true;
+  }
 }
