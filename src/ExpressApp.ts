@@ -9,6 +9,7 @@ class ExpressApp {
   private app: express.Application;
   private port: number;
 
+  // Make this section more generic, this is not scalable, currently i need to add a route manualy for each injected controller 
   constructor(
     @inject(DirectorController) private directorController: DirectorController,
     @inject(MovieController) private movieController: MovieController

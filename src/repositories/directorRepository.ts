@@ -6,6 +6,7 @@ import { Director } from "../models/directorModel";
 
 @injectable()
 export class DirectorRepository {
+  // connection with db should be in .env
   private directorsFilePath = path.resolve("./database/directors.json");
 
   getAll = async (searchQuery?: string): Promise<Director[]> => {
