@@ -1,4 +1,4 @@
-export * from "./directors/baseDirector";
+export * from "./directors/createDirector";
 export * from "./directors/editDirector";
-export * from "./movies/baseMovie";
+export * from "./movies/createMovie";
 export * from "./movies/editMovie";

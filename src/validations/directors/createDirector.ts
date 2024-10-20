@@ -1,7 +1,6 @@
 import { Schema } from "express-validator";
 
-// baseDirector is an inccorrect name because its its own schem anow, this is an artifact...
-export const directorBaseValidator: Schema = {
+export const directorCreationValidator: Schema = {
   firstName: {
     isLength: {
       options: { min: 2 },

@@ -4,7 +4,7 @@ import { StatusCodes } from "http-status-codes";
 import { inject, injectable } from "inversify";
 import { validationHandler } from "../middlewares";
 import { DirectorService } from "../services/directorServices";
-import { directorBaseValidator, directorEditValidator } from "../validations";
+import { directorCreationValidator, directorEditValidator } from "../validations";
 
 @injectable()
 export class DirectorController {
@@ -19,7 +19,7 @@ export class DirectorController {
     this.router.get("/:search?", this.get.bind(this));
     this.router.post(
       "/",
-      checkSchema(directorBaseValidator),
+      checkSchema(directorCreationValidator),
       validationHandler,
       this.post.bind(this)
     );

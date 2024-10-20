@@ -68,7 +68,6 @@ export class DirectorService {
         message: idValidationError.message,
       })
       return false;
-      ;
     }
 
     await this.directorRepository.delete(id)

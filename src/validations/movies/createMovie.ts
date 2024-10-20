@@ -1,6 +1,6 @@
 import { Schema } from "express-validator";
 
-export const movieBaseValidator: Schema = {
+export const movieCreationValidator: Schema = {
   title: {
     isLength: {
       options: { min: 2 },

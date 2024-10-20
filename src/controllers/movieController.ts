@@ -4,7 +4,7 @@ import { StatusCodes } from "http-status-codes";
 import { inject, injectable } from "inversify";
 import { validationHandler } from "../middlewares";
 import { MovieService } from "../services/movieServices";
-import { movieBaseValidator, movieEditValidator } from "../validations";
+import { movieCreationValidator, movieEditValidator } from "../validations";
 
 @injectable()
 export class MovieController {
@@ -19,7 +19,7 @@ export class MovieController {
     this.router.get("/:search?", this.get.bind(this));
     this.router.post(
       "/",
-      checkSchema(movieBaseValidator),
+      checkSchema(movieCreationValidator),
       validationHandler,
       this.post.bind(this)
     );
