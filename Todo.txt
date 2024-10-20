@@ -14,3 +14,6 @@ i need to make an additional page that shows all directors in the frontend proje
 similar to how it shows all movies ( optional ).
 
 b) make the last shiftsurim!
+
+c) maybe i should add try catches for
+ the methods insdie the services layer ??

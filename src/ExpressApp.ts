@@ -1,3 +1,4 @@
+import cors from 'cors';
 import dotenv from "dotenv";
 import express from "express";
 import { inject } from "inversify";
@@ -24,6 +25,7 @@ class ExpressApp {
   private useMiddleware() {
     this.app.use(express.json());
     this.app.use(errorHandler);
+    this.app.use(cors());
     this.app.use(loggerHandler);
   }
 
