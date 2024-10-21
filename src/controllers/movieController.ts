@@ -10,7 +10,8 @@ import { movieCreationValidator, movieEditValidator } from "../validations";
 export class MovieController {
   constructor(
     @inject(MovieService) private service: MovieService,
-    public router = Router()
+    public router = Router(),
+    public basePath = '/movies'
   ) {
     this.initializeRoutes();
   }

@@ -1,18 +1,15 @@
 import cors from 'cors';
 import dotenv from "dotenv";
 import express from "express";
-import { inject } from "inversify";
-import { DirectorController, MovieController } from "./controllers";
+import { controllerDto } from './dtos/controllerDto';
 import { errorHandler, loggerHandler } from "./middlewares";
 
 class ExpressApp {
   private app: express.Application;
   private port: number;
 
-  // Make this section more generic, this is not scalable, currently i need to add a route manualy for each injected controller 
   constructor(
-    @inject(DirectorController) private directorController: DirectorController,
-    @inject(MovieController) private movieController: MovieController
+    private controllers: controllerDto[]
   ) {
     dotenv.config();
 
@@ -34,8 +31,10 @@ class ExpressApp {
     this.app.get("/", (req, res) => {
       res.send("Hello World!");
     });
-    this.app.use("/directors", this.directorController.router);
-    this.app.use("/movies", this.movieController.router);
+
+    this.controllers.forEach(controller => {
+      this.app.use(controller.basePath, controller.router);
+    });
   }
 
   listen() {

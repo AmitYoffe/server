@@ -10,7 +10,8 @@ import { directorCreationValidator, directorEditValidator } from "../validations
 export class DirectorController {
   constructor(
     @inject(DirectorService) private service: DirectorService,
-    public router = Router()
+    public router = Router(),
+    public basePath = '/directors'
   ) {
     this.initializeRoutes();
   }
