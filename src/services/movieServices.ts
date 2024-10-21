@@ -20,17 +20,9 @@ export class MovieService {
 
   async edit(
     movie: MovieDto,
-    id: number,
-    res: Response
+    id: number
   ) {
-    const idValidationError = await this.checkId(id);
-
-    if (idValidationError) {
-      return res.status(idValidationError.status).json({
-        message: idValidationError.message,
-      });
-    }
-
+    await this.checkId(id);
     return this.movieRepository.edit(movie, id);
   };
 
@@ -45,24 +37,12 @@ export class MovieService {
     const moviesIdArr = await this.getIds();
 
     if (!moviesIdArr.includes(updatedMovieId)) {
-      return {
-        status: StatusCodes.NOT_FOUND,
-        message: `Movie with id of ${updatedMovieId} not found`,
-      };
+      throw new Error(`Director with id of ${updatedMovieId} not found`);
     }
   };
 
-  async delete(id: number, res: Response) {
-    const idValidationError = await this.checkId(id);
-    if (idValidationError) {
-      res.status(idValidationError.status).json({
-        message: idValidationError.message,
-      })
-      return false;
-      ;
-    }
-
+  async delete(id: number) {
+    await this.checkId(id);
     await this.movieRepository.delete(id)
-    return true;
   }
 }

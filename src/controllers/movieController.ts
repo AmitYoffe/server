@@ -47,13 +47,23 @@ export class MovieController {
 
   async patch(req: Request, res: Response) {
     const updatedMovieId = Number(req.params.id);
-    const movie = await this.service.edit(req.body, updatedMovieId, res);
 
-    res.status(StatusCodes.PARTIAL_CONTENT).json(movie);
+    try {
+      const movie = await this.service.edit(req.body, updatedMovieId);
+      res.status(StatusCodes.PARTIAL_CONTENT).json(movie);
+    } catch (error: any) {
+      res.status(StatusCodes.PARTIAL_CONTENT).json({ message: error.message });
+    }
   }
 
-  async delete({ params: { id } }: Request, res: Response) {
-    const movieId = Number(id);
-    await this.service.delete(movieId, res);
+  async delete(req: Request, res: Response) {
+    const movieId = Number(req.params.id);
+
+    try {
+      await this.service.delete(movieId);
+      res.status(StatusCodes.NO_CONTENT);
+    } catch (error: any) {
+      res.status(StatusCodes.NOT_FOUND).json({ message: error.message });
+    }
   }
 }

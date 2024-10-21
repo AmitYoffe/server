@@ -47,13 +47,24 @@ export class DirectorController {
 
   async patch(req: Request, res: Response) {
     const updatedDirectorId = Number(req.params.id);
-    const director = await this.service.edit(req.body, updatedDirectorId, res);
 
-    res.status(StatusCodes.PARTIAL_CONTENT).json(director);
+    try {
+      const director = await this.service.edit(req.body, updatedDirectorId);
+      res.status(StatusCodes.PARTIAL_CONTENT).json(director);
+    } catch (error: any) {
+      res.status(StatusCodes.NOT_FOUND).json({ message: error.message });
+    }
   }
 
-  async delete({ params: { id } }: Request, res: Response) {
-    const directorId = Number(id);
-    await this.service.delete(directorId, res);
+  async delete(req: Request, res: Response) {
+    const directorId = Number(req.params.id);
+
+    try {
+      await this.service.delete(directorId);
+      res.status(StatusCodes.NO_CONTENT);
+    } catch (error: any) {
+      res.status(StatusCodes.NOT_FOUND).json({ message: error.message });
+    }
   }
+
 }
