@@ -10,7 +10,6 @@ export class DirectorRepository {
   
   constructor() {
     dotenv.config();
-    console.log('directorsFilePath: ', process.env.DB_CONNECTION_DIRECTORS)
     this.directorsFilePath = process.env.DB_CONNECTION_DIRECTORS as string
   }
 

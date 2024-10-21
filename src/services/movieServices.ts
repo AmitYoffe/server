@@ -2,7 +2,6 @@ import { Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import { inject, injectable } from "inversify";
 import { MovieDto } from "../dtos/movies/createMovieDto";
-import { Movie } from "../models/movieModel";
 import { MovieRepository } from "../repositories/movieRepository";
 
 @injectable()
@@ -11,19 +10,19 @@ export class MovieService {
     @inject(MovieRepository) private movieRepository: MovieRepository
   ) { }
 
-  get = async (searchQuery?: string) => {
+  async get(searchQuery?: string) {
     return this.movieRepository.get(searchQuery);
   };
 
-  create = async (movie: MovieDto) => {
+  async create(movie: MovieDto) {
     return this.movieRepository.create(movie);
   };
 
-  edit = async (
+  async edit(
     movie: MovieDto,
     id: number,
     res: Response
-  ) => {
+  ) {
     const idValidationError = await this.checkId(id);
 
     if (idValidationError) {
@@ -35,14 +34,14 @@ export class MovieService {
     return this.movieRepository.edit(movie, id);
   };
 
-  getIds = async () => {
+  async getIds() {
     const movieList = await this.movieRepository.get();
     const moviesIdArr = movieList.map((movie) => movie.id);
 
     return moviesIdArr;
   };
 
-  checkId = async (updatedMovieId: number) => {
+  async checkId(updatedMovieId: number) {
     const moviesIdArr = await this.getIds();
 
     if (!moviesIdArr.includes(updatedMovieId)) {
@@ -51,11 +50,9 @@ export class MovieService {
         message: `Movie with id of ${updatedMovieId} not found`,
       };
     }
-
-    return null;
   };
 
-  delete = async (id: number, res: Response) => {
+  async delete(id: number, res: Response) {
     const idValidationError = await this.checkId(id);
     if (idValidationError) {
       res.status(idValidationError.status).json({

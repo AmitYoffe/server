@@ -11,15 +11,15 @@ export class DirectorService {
     @inject(DirectorRepository) private directorRepository: DirectorRepository
   ) { }
 
-  get = async (searchQuery?: string) => this.directorRepository.get(searchQuery);
+  async get(searchQuery?: string) { this.directorRepository.get(searchQuery) };
 
-  create = async (director: DirectorDto) => this.directorRepository.create(director);
+  async create(director: DirectorDto) { this.directorRepository.create(director) };
 
-  edit = async (
+  async edit(
     director: DirectorDto,
     id: number,
     res: Response
-  ) => {
+  ) {
     const idValidationError = await this.checkId(id);
     // change to excepetion throwing logic i.e. if (err) throw new error
     // because i already have this logic in my validation middleware
@@ -32,18 +32,15 @@ export class DirectorService {
     return this.directorRepository.edit(director, id);
   };
 
-  getIds = async () => {
+  async getIds() {
     const directorList: Director[] = await this.directorRepository.get();
     const directorIdArr = directorList.map((director) => director.id);
 
     return directorIdArr;
   };
 
-  // maybe i needed to make this a regular fuction to not use the .bind() 
-  // in general do not use arrow fuinctions in classes instead of methods
-
   // this method can just return a boolean value and retuirn the messages in each method
-  checkId = async (updatedDirectorId: number) => {
+  async checkId(updatedDirectorId: number) {
     const directorsIdArr = await this.getIds();
 
     if (!directorsIdArr.includes(updatedDirectorId)) {
@@ -52,13 +49,10 @@ export class DirectorService {
         message: `Director with id of ${updatedDirectorId} not found`,
       };
     }
-
-    // returning null isnt neccessary
-    return null;
   };
 
   // same error exception logic should be here, shouldn't reuse thhe validation logic 
-  delete = async (id: number, res: Response) => {
+  async delete(id: number, res: Response) {
     const idValidationError = await this.checkId(id);
     if (idValidationError) {
       res.status(idValidationError.status).json({

@@ -33,8 +33,8 @@ export class MovieController {
     this.router.delete("/:id", this.delete.bind(this));
   }
 
-  async get(req: Request, res: Response) {
-    const searchQuery = req.params.search;
+  async get({ params: { search } }: Request, res: Response) {
+    const searchQuery = search;
     const movies = await this.service.get(searchQuery);
 
     res.status(StatusCodes.OK).json(movies);
@@ -52,14 +52,8 @@ export class MovieController {
     res.status(StatusCodes.PARTIAL_CONTENT).json(movie);
   }
 
-  async delete(req: Request, res: Response) {
-    const movieId = Number(req.params.id);
-    const isDeleted = await this.service.delete(movieId, res);
-
-    if (isDeleted) {
-      res.status(StatusCodes.OK).json({
-        message: `Deleted movie with id of ${movieId}.`
-      });
-    }
+  async delete({ params: { id } }: Request, res: Response) {
+    const movieId = Number(id);
+    await this.service.delete(movieId, res);
   }
 }

@@ -34,7 +34,6 @@ export class DirectorController {
   }
 
   // use query params in my get methods
-  // destrcuture where ever i can
   async get({ params: { search } }: Request, res: Response) {
     const directors = await this.service.get(search);
 
@@ -53,14 +52,8 @@ export class DirectorController {
     res.status(StatusCodes.PARTIAL_CONTENT).json(director);
   }
 
-  async delete(req: Request, res: Response) {
-    const directorId = Number(req.params.id);
-    const isDeleted = await this.service.delete(directorId, res);
-    // do not need the constant isDeleted, this response json isnt needed
-    if (isDeleted) {
-      res.status(StatusCodes.OK).json({
-        message: `Deleted director with id of ${directorId}.`
-      });
-    }
+  async delete({ params: { id } }: Request, res: Response) {
+    const directorId = Number(id);
+    await this.service.delete(directorId, res);
   }
 }
