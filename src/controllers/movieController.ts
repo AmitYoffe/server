@@ -34,7 +34,7 @@ export class MovieController {
 
   async get(req: Request, res: Response) {
     const searchQuery = req.params.search;
-    const movies = await this.service.getAll(searchQuery);
+    const movies = await this.service.get(searchQuery);
 
     res.status(StatusCodes.OK).json(movies);
   }

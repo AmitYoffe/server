@@ -9,9 +9,9 @@ export class DirectorRepository {
   // connection with db should be in .env
   private directorsFilePath = path.resolve("./database/directors.json");
 
-  getAll = async (searchQuery?: string): Promise<Director[]> => {
+  get = async (searchQuery?: string) => {
     const directors = fs.readFileSync(this.directorsFilePath, "utf-8");
-    const directorList = JSON.parse(directors);
+    const directorList: Director[] = JSON.parse(directors);
 
     if (searchQuery) {
       return directorList.filter(
@@ -24,8 +24,8 @@ export class DirectorRepository {
     return directorList;
   }
 
-  create = async (directorInfo: DirectorDto): Promise<Director> => {
-    const directors = await this.getAll();
+  create = async (directorInfo: DirectorDto) => {
+    const directors = await this.get();
     let newId = 1;
     for (const existingDirector of directors) {
       if (existingDirector.id >= newId) {
@@ -44,8 +44,8 @@ export class DirectorRepository {
     return newDirector;
   }
 
-  edit = async (updatedDirector: DirectorDto, id: number): Promise<Director> => {
-    const directors = await this.getAll();
+  edit = async (updatedDirector: DirectorDto, id: number) => {
+    const directors = await this.get();
     const directorIndex = directors.findIndex((director) => director.id === id);
     directors[directorIndex] = {
       ...directors[directorIndex],
@@ -60,8 +60,8 @@ export class DirectorRepository {
     return directors[directorIndex];
   }
 
-  delete = async (id: number): Promise<Director[]> => {
-    const directors = await this.getAll();
+  delete = async (id: number) => {
+    const directors = await this.get();
     const updatedDirectors = directors.filter(director => director.id !== id);
 
     fs.writeFileSync(

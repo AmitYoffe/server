@@ -1,6 +1,6 @@
 import { Director } from "./directorModel";
 
-export interface Movie {
+export type Movie = {
   id: number;
   title: string;
   director: Director | string;

@@ -33,13 +33,13 @@ export class DirectorController {
   }
 
   // use query params in my get methods
+  // destrcuture where ever i can
   async get({ params: { search } }: Request, res: Response) {
-    const directors = await this.service.getAll(search);
+    const directors = await this.service.get(search);
 
     res.status(StatusCodes.OK).json(directors);
   }
 
-  // destrcuture where ever i can
   async post(req: Request, res: Response) {
     const director = await this.service.create(req.body);
     res.status(StatusCodes.CREATED).json(director);

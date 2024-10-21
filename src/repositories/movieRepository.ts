@@ -8,9 +8,9 @@ import { Movie } from "../models/movieModel";
 export class MovieRepository {
   moviesFilePath = path.resolve("./database/movies.json");
 
-  getAll = async (searchQuery?: string): Promise<Movie[]> => {
+  get = async (searchQuery?: string) => {
     const movies = fs.readFileSync(this.moviesFilePath, "utf-8");
-    const movieList = JSON.parse(movies);
+    const movieList: Movie[] = JSON.parse(movies);
 
     if (searchQuery) {
       return movieList.filter((movie: Movie) =>
@@ -21,8 +21,8 @@ export class MovieRepository {
     return movieList;
   };
 
-  create = async (movieInfo: MovieDto): Promise<Movie> => {
-    const movies = await this.getAll();
+  create = async (movieInfo: MovieDto) => {
+    const movies = await this.get();
 
     let newId = 1;
     for (const existingMovie of movies) {
@@ -42,8 +42,8 @@ export class MovieRepository {
     return newMovie;
   };
 
-  edit = async (updatedMovie: MovieDto, id: number): Promise<Movie> => {
-    const movies = await this.getAll();
+  edit = async (updatedMovie: MovieDto, id: number) => {
+    const movies = await this.get();
     const movieIndex = movies.findIndex((movie) => movie.id === id);
     movies[movieIndex] = { ...movies[movieIndex], ...updatedMovie };
     fs.writeFileSync(
@@ -55,8 +55,8 @@ export class MovieRepository {
     return movies[movieIndex];
   };
 
-  delete = async (id: number): Promise<Movie[]> => {
-    const movices = await this.getAll();
+  delete = async (id: number) => {
+    const movices = await this.get();
     const updatedMovies = movices.filter(movie => movie.id !== id);
 
     fs.writeFileSync(

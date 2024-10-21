@@ -11,11 +11,11 @@ export class MovieService {
     @inject(MovieRepository) private movieRepository: MovieRepository
   ) { }
 
-  getAll = async (searchQuery?: string): Promise<Movie[]> => {
-    return this.movieRepository.getAll(searchQuery);
+  get = async (searchQuery?: string) => {
+    return this.movieRepository.get(searchQuery);
   };
 
-  create = async (movie: MovieDto): Promise<MovieDto> => {
+  create = async (movie: MovieDto) => {
     return this.movieRepository.create(movie);
   };
 
@@ -23,7 +23,7 @@ export class MovieService {
     movie: MovieDto,
     id: number,
     res: Response
-  ): Promise<Movie | Response<any>> => {
+  ) => {
     const idValidationError = await this.checkId(id);
 
     if (idValidationError) {
@@ -35,8 +35,8 @@ export class MovieService {
     return this.movieRepository.edit(movie, id);
   };
 
-  getIds = async (): Promise<number[]> => {
-    const movieList = await this.movieRepository.getAll();
+  getIds = async () => {
+    const movieList = await this.movieRepository.get();
     const moviesIdArr = movieList.map((movie) => movie.id);
 
     return moviesIdArr;

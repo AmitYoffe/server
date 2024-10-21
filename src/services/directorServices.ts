@@ -11,17 +11,15 @@ export class DirectorService {
     @inject(DirectorRepository) private directorRepository: DirectorRepository
   ) { }
 
-  // get all should just be get
-  // not necessarily need return typing here
-  getAll = async (searchQuery?: string): Promise<Director[]> => this.directorRepository.getAll(searchQuery);
+  get = async (searchQuery?: string) => this.directorRepository.get(searchQuery);
 
-  create = async (director: DirectorDto): Promise<DirectorDto> => this.directorRepository.create(director);
+  create = async (director: DirectorDto) => this.directorRepository.create(director);
 
   edit = async (
     director: DirectorDto,
     id: number,
     res: Response
-  ): Promise<Director | Response> => {
+  ) => {
     const idValidationError = await this.checkId(id);
     // change to excepetion throwing logic i.e. if (err) throw new error
     // because i already have this logic in my validation middleware
@@ -34,9 +32,8 @@ export class DirectorService {
     return this.directorRepository.edit(director, id);
   };
 
-  // do not need return types
-  getIds = async (): Promise<number[]> => {
-    const directorList = await this.directorRepository.getAll();
+  getIds = async () => {
+    const directorList: Director[] = await this.directorRepository.get();
     const directorIdArr = directorList.map((director) => director.id);
 
     return directorIdArr;
