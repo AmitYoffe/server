@@ -47,7 +47,6 @@ export class DirectorController {
   }
 
   async patch(req: Request, res: Response) {
-    // be consistant, use Number or parseInt but not both
     const updatedDirectorId = Number(req.params.id);
     const director = await this.service.edit(req.body, updatedDirectorId, res);
 

@@ -14,7 +14,7 @@ class ExpressApp {
     dotenv.config();
 
     this.app = express();
-    this.port = parseInt(process.env.PORT as string) || 3000;
+    this.port = Number(process.env.PORT as string) || 3000;
 
     this.useMiddleware();
     this.initializeRoutes();
@@ -28,7 +28,7 @@ class ExpressApp {
   }
 
   private initializeRoutes() {
-    this.app.get("/", (req, res) => {
+    this.app.get("/", (_req, res) => {
       res.send("Hello World!");
     });
 

@@ -1,12 +1,17 @@
+import dotenv from "dotenv";
 import fs from "fs";
 import { injectable } from "inversify";
-import path from "path";
 import { MovieDto } from "../dtos/movies/createMovieDto";
 import { Movie } from "../models/movieModel";
 
 @injectable()
 export class MovieRepository {
-  moviesFilePath = path.resolve("./database/movies.json");
+  private moviesFilePath: string;
+
+  constructor() {
+    dotenv.config();
+    this.moviesFilePath = process.env.DB_CONNECTION_MOVIES as string
+  }
 
   get = async (searchQuery?: string) => {
     const movies = fs.readFileSync(this.moviesFilePath, "utf-8");

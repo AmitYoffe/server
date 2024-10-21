@@ -1,13 +1,18 @@
+import dotenv from "dotenv";
 import fs from "fs";
 import { injectable } from "inversify";
-import path from "path";
 import { DirectorDto } from "../dtos/directors/createDirectorDto";
 import { Director } from "../models/directorModel";
 
 @injectable()
 export class DirectorRepository {
-  // connection with db should be in .env
-  private directorsFilePath = path.resolve("./database/directors.json");
+  private directorsFilePath: string;
+  
+  constructor() {
+    dotenv.config();
+    console.log('directorsFilePath: ', process.env.DB_CONNECTION_DIRECTORS)
+    this.directorsFilePath = process.env.DB_CONNECTION_DIRECTORS as string
+  }
 
   get = async (searchQuery?: string) => {
     const directors = fs.readFileSync(this.directorsFilePath, "utf-8");
