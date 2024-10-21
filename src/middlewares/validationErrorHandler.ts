@@ -7,7 +7,8 @@ export const validationHandler = (
   res: Response,
   next: NextFunction
 ) => {
-  // move the checkschema here, take the schema itself through an argument here
+  // move the checkschema here, take the schema itself through an argument here 
+  // (This didnt work for me...)
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {

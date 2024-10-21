@@ -17,7 +17,7 @@ export class DirectorController {
   }
 
   initializeRoutes() {
-    this.router.get("/:search?", this.get.bind(this));
+    this.router.get("/:search", this.get.bind(this));
     this.router.post(
       "/",
       checkSchema(directorCreationValidator),
@@ -33,9 +33,9 @@ export class DirectorController {
     this.router.delete("/:id", this.delete.bind(this));
   }
 
-  // use query params in my get methods
-  async get({ params: { search } }: Request, res: Response) {
-    const directors = await this.service.get(search);
+  async get(req: Request, res: Response) {
+    const searchTerm = req.query.search as string | undefined;
+    const directors = await this.service.get(searchTerm);
 
     res.status(StatusCodes.OK).json(directors);
   }

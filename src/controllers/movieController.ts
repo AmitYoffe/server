@@ -17,7 +17,7 @@ export class MovieController {
   }
 
   private initializeRoutes() {
-    this.router.get("/:search?", this.get.bind(this));
+    this.router.get("/:search", this.get.bind(this));
     this.router.post(
       "/",
       checkSchema(movieCreationValidator),
@@ -33,8 +33,8 @@ export class MovieController {
     this.router.delete("/:id", this.delete.bind(this));
   }
 
-  async get({ params: { search } }: Request, res: Response) {
-    const searchQuery = search;
+  async get({ query: { search } }: Request, res: Response) {
+    const searchQuery = search as string | undefined;
     const movies = await this.service.get(searchQuery);
 
     res.status(StatusCodes.OK).json(movies);
