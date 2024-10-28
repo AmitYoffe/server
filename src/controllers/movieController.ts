@@ -11,13 +11,13 @@ export class MovieController {
   constructor(
     @inject(MovieService) private service: MovieService,
     public router = Router(),
-    public basePath = '/movies'
+    public basePath = "/movies"
   ) {
     this.initializeRoutes();
   }
 
   private initializeRoutes() {
-    this.router.get("/:search", this.get.bind(this));
+    this.router.get("/:search?", this.get.bind(this));
     this.router.post(
       "/",
       checkSchema(movieCreationValidator),
