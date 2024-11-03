@@ -3,28 +3,54 @@
     "id": 1,
     "firstName": "Willson",
     "lastName": "Boy",
-    "movies": []
+    "movies": ""
   },
   {
     "id": 2,
     "firstName": "Bibi",
     "lastName": "Netanyahu",
-    "movies": []
+    "movies": ""
   },
   {
     "id": 3,
     "firstName": "Bibi the second",
     "lastName": "Netanyahu sdgsg",
-    "movies": [
-      "waafas asa sd gsdgsd f"
-    ]
+    "movies": "waafas asa sd gsdgsd f"
   },
   {
     "id": 4,
     "firstName": "Bibi the third sfdsfs",
     "lastName": "Netanyahu the second",
-    "movies": [
-      "Democracy foresaken"
-    ]
+    "movies": ["Democracy foresaken"]
+  },
+  {
+    "id": 5,
+    "firstName": "Richard",
+    "lastName": "Vet",
+    "movies": ["I lost dawg", "I hate my cat", "Cat propaganda"]
+  },
+  {
+    "id": 6,
+    "firstName": "Biased",
+    "lastName": "Mewo",
+    "movies": ["Love hate and cats", "Cats VS Dogs"]
+  },
+  {
+    "id": 7,
+    "firstName": "Grandma",
+    "lastName": "Gefiltefish",
+    "movies": "Passover revenge"
+  },
+  {
+    "id": 8,
+    "firstName": "Chinese",
+    "lastName": "Dingaling",
+    "movies": ["Pasta is bad for you"]
+  },
+  {
+    "id": 9,
+    "firstName": "Xia",
+    "lastName": "Yao Bing",
+    "movies": ["少数民族"]
   }
 ]

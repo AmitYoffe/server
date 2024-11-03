@@ -3,12 +3,48 @@
     "id": 1,
     "title": "Life Of Pie",
     "director": "John Johnson",
-    "year": 2005
+    "year": "2005"
   },
   {
     "id": 2,
-    "title": "Lord Of The Flies 2",
+    "title": "Lord Of The Flies 33",
     "director": "Rick Rickson",
-    "year": 1997
+    "year": "1997"
+  },
+  {
+    "id": 3,
+    "title": "I hate cats",
+    "director": "Doggity dougette",
+    "year": "2008"
+  },
+  {
+    "id": 4,
+    "title": "Cats VS Dogs",
+    "director": "Biased mewo",
+    "year": "1999"
+  },
+  {
+    "id": 5,
+    "title": "Reacting to 'I Hate Dogs' 2022 IMPOSSIBLE!",
+    "director": "Doggity Dougette",
+    "year": "2005"
+  },
+  {
+    "id": 6,
+    "title": "Love hate and cats",
+    "director": "Biased mewo",
+    "year": "2007"
+  },
+  {
+    "id": 7,
+    "title": "How to euthanize psychozphrenic cat",
+    "director": "Dr vet",
+    "year": "2015"
+  },
+  {
+    "id": 8,
+    "title": "Giving my cat 5-meo-trito-adextamine",
+    "director": "Dr vet",
+    "year": "1999"
   }
 ]
