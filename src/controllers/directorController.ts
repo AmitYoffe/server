@@ -17,7 +17,7 @@ export class DirectorController {
   }
 
   initializeRoutes() {
-    this.router.get("/:search", this.get.bind(this));
+    this.router.get("/:search?", this.get.bind(this));
     this.router.post(
       "/",
       checkSchema(directorCreationValidator),

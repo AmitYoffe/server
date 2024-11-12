@@ -8,7 +8,7 @@ export const validationHandler = (
   next: NextFunction
 ) => {
   // move the checkschema here, take the schema itself through an argument here 
-  // (This didnt work for me...)
+  // This didnt work for me... :( 
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
@@ -22,19 +22,6 @@ export const validationHandler = (
         errors: [
           {
             msg: "ID param in URL is required for patching.",
-          },
-        ],
-      });
-    }
-
-    // this logic is unnecessary because i can validate path params too
-    const id = Number(idParam);
-    if (isNaN(id)) {
-      return res.status(StatusCodes.BAD_REQUEST).json({
-        errors: [
-          {
-            msg: "Invalid ID param. ID must be a number.",
-            value: id,
           },
         ],
       });
