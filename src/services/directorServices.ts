@@ -9,7 +9,7 @@ export class DirectorService {
     @inject(DirectorRepository) private directorRepository: DirectorRepository
   ) { }
 
-  async get(searchQuery?: string) {
+  async get(searchQuery?: string) { // unnecessary asyncs 
     return this.directorRepository.get(searchQuery);
   }
 
@@ -27,7 +27,7 @@ export class DirectorService {
     return directorList.map((director) => director.id);
   }
 
-  async checkId(updatedDirectorId: number) {
+  async checkId(updatedDirectorId: number) { // naming should be specific to its own logic and not to its use case ( id and not updatedDirectorId )
     const directorsIdArr = await this.getIds();
 
     if (!directorsIdArr.includes(updatedDirectorId)) {

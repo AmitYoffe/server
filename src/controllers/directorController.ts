@@ -12,7 +12,7 @@ import {
 @injectable()
 export class DirectorController {
   constructor(
-    @inject(DirectorService) private service: DirectorService,
+    @inject(DirectorService) private service: DirectorService,  // change service to a mroe sepecific name
     public router = Router(),
     public basePath = "/directors"
   ) {
@@ -20,7 +20,7 @@ export class DirectorController {
   }
 
   initializeRoutes() {
-    this.router.get("/:search?", this.get.bind(this));
+    this.router.get("/:search?", this.get.bind(this)); // "?"" isnt necessary because query params are sent with the body anyways
     this.router.post(
       "/",
       checkSchema(directorCreationValidator),
@@ -55,7 +55,7 @@ export class DirectorController {
       const director = await this.service.edit(req.body, updatedDirectorId);
       res.status(StatusCodes.PARTIAL_CONTENT).json(director);
     } catch (error: any) {
-      res.status(StatusCodes.NOT_FOUND).json({ message: error.message });
+      res.status(StatusCodes.NOT_FOUND).json({ message: error.message }); // error type should be unknown
     }
   }
 

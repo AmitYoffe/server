@@ -9,10 +9,13 @@ export class DirectorRepository {
   private directorsFilePath: string;
   
   constructor() {
-    dotenv.config();
+    dotenv.config(); // delete
     this.directorsFilePath = process.env.DB_CONNECTION_DIRECTORS as string
   }
 
+  // arrow funcs shouldn't be in methods
+  // unnecessary asyncs 
+  // read about search query dto / search objects
   get = async (searchQuery?: string) => {
     const directors = fs.readFileSync(this.directorsFilePath, "utf-8");
     const directorList: Director[] = JSON.parse(directors);
@@ -31,6 +34,7 @@ export class DirectorRepository {
   create = async (directorInfo: DirectorDto) => {
     const directors = await this.get();
     let newId = 1;
+    // change this to reduce for practice
     for (const existingDirector of directors) {
       if (existingDirector.id >= newId) {
         newId = existingDirector.id + 1;

@@ -4,7 +4,7 @@ import { LogDto } from "../dtos/logDto";
 export const loggerHandler = (req: Request, res: Response, next: NextFunction) => {
     const currentTime = new Date();
 
-    let log: LogDto = {
+    const log: LogDto = {
         path: req.originalUrl,
         time: currentTime.toLocaleString(),
         method: req.method,

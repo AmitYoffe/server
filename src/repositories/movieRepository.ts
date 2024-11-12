@@ -18,8 +18,8 @@ export class MovieRepository {
     const movieList: Movie[] = JSON.parse(movies);
 
     if (searchQuery) {
-      return movieList.filter((movie: Movie) =>
-        movie.title.toLowerCase().includes(searchQuery.toLowerCase())
+      return movieList.filter(({ title }: Movie) =>
+        title.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
 
@@ -30,6 +30,7 @@ export class MovieRepository {
     const movies = await this.get();
 
     let newId = 1;
+    // practice reduce here aswell 
     for (const existingMovie of movies) {
       if (existingMovie.id >= newId) {
         newId = existingMovie.id + 1;
@@ -61,8 +62,8 @@ export class MovieRepository {
   };
 
   delete = async (id: number) => {
-    const movices = await this.get();
-    const updatedMovies = movices.filter(movie => movie.id !== id);
+    const movies = await this.get();
+    const updatedMovies = movies.filter(movie => movie.id !== id);
 
     fs.writeFileSync(
       this.moviesFilePath,
@@ -70,6 +71,6 @@ export class MovieRepository {
       "utf-8"
     );
 
-    return movices;
+    return movies;
   }
 }

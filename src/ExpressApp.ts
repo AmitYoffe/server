@@ -16,13 +16,13 @@ class ExpressApp {
     this.app = express();
     this.port = Number(process.env.PORT as string) || 3000;
 
-    this.useMiddleware();
+    this.initializeMiddleware();
     this.initializeRoutes();
   }
 
-  private useMiddleware() {
+  private initializeMiddleware() {
     this.app.use(express.json());
-    this.app.use(errorHandler);
+    this.app.use(errorHandler); // check if this should have been at the end of the chain
     this.app.use(cors());
     this.app.use(loggerHandler);
   }
