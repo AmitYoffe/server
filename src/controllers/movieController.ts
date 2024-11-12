@@ -11,7 +11,7 @@ export class MovieController {
   constructor(
     @inject(MovieService) private service: MovieService,
     public router = Router(),
-    public basePath = '/movies'
+    public basePath = "/movies"
   ) {
     this.initializeRoutes();
   }

@@ -4,14 +4,17 @@ import { StatusCodes } from "http-status-codes";
 import { inject, injectable } from "inversify";
 import { validationHandler } from "../middlewares";
 import { DirectorService } from "../services/directorServices";
-import { directorCreationValidator, directorEditValidator } from "../validations";
+import {
+  directorCreationValidator,
+  directorEditValidator,
+} from "../validations";
 
 @injectable()
 export class DirectorController {
   constructor(
     @inject(DirectorService) private service: DirectorService,
     public router = Router(),
-    public basePath = '/directors'
+    public basePath = "/directors"
   ) {
     this.initializeRoutes();
   }
@@ -66,5 +69,4 @@ export class DirectorController {
       res.status(StatusCodes.NOT_FOUND).json({ message: error.message });
     }
   }
-
 }
