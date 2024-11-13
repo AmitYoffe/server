@@ -9,34 +9,34 @@ export class DirectorService {
     @inject(DirectorRepository) private directorRepository: DirectorRepository
   ) { }
 
-  async get(searchQuery?: string) { // unnecessary asyncs 
+  get(searchQuery?: string) { // unnecessary asyncs 
     return this.directorRepository.get(searchQuery);
   }
 
-  async create(director: DirectorDto) {
+  create(director: DirectorDto) {
     return this.directorRepository.create(director);
   }
 
-  async edit(director: DirectorDto, id: number) {
-    await this.checkId(id);
+  edit(director: DirectorDto, id: number) {
+    this.checkId(id);
     return this.directorRepository.edit(director, id);
   }
 
-  async getIds() {
-    const directorList: Director[] = await this.directorRepository.get();
+  getIds() {
+    const directorList: Director[] = this.directorRepository.get();
     return directorList.map((director) => director.id);
   }
 
-  async checkId(updatedDirectorId: number) { // naming should be specific to its own logic and not to its use case ( id and not updatedDirectorId )
-    const directorsIdArr = await this.getIds();
+  checkId(id: number) {
+    const directorsIdArr = this.getIds();
 
-    if (!directorsIdArr.includes(updatedDirectorId)) {
-      throw new Error(`Director with id of ${updatedDirectorId} not found`);
+    if (!directorsIdArr.includes(id)) {
+      throw new Error(`Director with id of ${id} not found`);
     }
   }
 
-  async delete(id: number) {
-    await this.checkId(id);
-    await this.directorRepository.delete(id);
+  delete(id: number) {
+    this.checkId(id);
+    this.directorRepository.delete(id);
   }
 }

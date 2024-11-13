@@ -1,5 +1,3 @@
-import { Response } from "express";
-import { StatusCodes } from "http-status-codes";
 import { inject, injectable } from "inversify";
 import { MovieDto } from "../dtos/movies/createMovieDto";
 import { MovieRepository } from "../repositories/movieRepository";

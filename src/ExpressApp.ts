@@ -1,7 +1,7 @@
 import cors from 'cors';
 import dotenv from "dotenv";
 import express from "express";
-import { controllerDto } from './dtos/controllerDto';
+import {  ControllerType } from './dtos/controllerDto';
 import { errorHandler, loggerHandler } from "./middlewares";
 
 class ExpressApp {
@@ -9,7 +9,7 @@ class ExpressApp {
   private port: number;
 
   constructor(
-    private controllers: controllerDto[]
+    private controllers: ControllerType[]
   ) {
     dotenv.config();
 

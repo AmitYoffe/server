@@ -12,7 +12,7 @@ import {
 @injectable()
 export class DirectorController {
   constructor(
-    @inject(DirectorService) private service: DirectorService,  // change service to a mroe sepecific name
+    @inject(DirectorService) private directorService: DirectorService,
     public router = Router(),
     public basePath = "/directors"
   ) {
@@ -20,7 +20,7 @@ export class DirectorController {
   }
 
   initializeRoutes() {
-    this.router.get("/:search?", this.get.bind(this)); // "?"" isnt necessary because query params are sent with the body anyways
+    this.router.get("/", this.get.bind(this));
     this.router.post(
       "/",
       checkSchema(directorCreationValidator),
@@ -36,34 +36,34 @@ export class DirectorController {
     this.router.delete("/:id", this.delete.bind(this));
   }
 
-  async get(req: Request, res: Response) {
+  get(req: Request, res: Response) {
     const searchTerm = req.query.search as string | undefined;
-    const directors = await this.service.get(searchTerm);
+    const directors = this.directorService.get(searchTerm);
 
     res.status(StatusCodes.OK).json(directors);
   }
 
-  async post(req: Request, res: Response) {
-    const director = await this.service.create(req.body);
+  post(req: Request, res: Response) {
+    const director = this.directorService.create(req.body);
     res.status(StatusCodes.CREATED).json(director);
   }
 
-  async patch(req: Request, res: Response) {
+  patch(req: Request, res: Response) {
     const updatedDirectorId = Number(req.params.id);
 
     try {
-      const director = await this.service.edit(req.body, updatedDirectorId);
+      const director = this.directorService.edit(req.body, updatedDirectorId);
       res.status(StatusCodes.PARTIAL_CONTENT).json(director);
-    } catch (error: any) {
-      res.status(StatusCodes.NOT_FOUND).json({ message: error.message }); // error type should be unknown
+    } catch (error: unknown) {
+      res.status(StatusCodes.NOT_FOUND).json({ message: error });
     }
   }
 
-  async delete(req: Request, res: Response) {
+  delete(req: Request, res: Response) {
     const directorId = Number(req.params.id);
 
     try {
-      await this.service.delete(directorId);
+      this.directorService.delete(directorId);
       res.status(StatusCodes.NO_CONTENT);
     } catch (error: any) {
       res.status(StatusCodes.NOT_FOUND).json({ message: error.message });

@@ -7,16 +7,15 @@ import { Director } from "../models/directorModel";
 @injectable()
 export class DirectorRepository {
   private directorsFilePath: string;
-  
+
   constructor() {
-    dotenv.config(); // delete
+    dotenv.config();
     this.directorsFilePath = process.env.DB_CONNECTION_DIRECTORS as string
   }
 
   // arrow funcs shouldn't be in methods
-  // unnecessary asyncs 
   // read about search query dto / search objects
-  get = async (searchQuery?: string) => {
+  get = (searchQuery?: string) => {
     const directors = fs.readFileSync(this.directorsFilePath, "utf-8");
     const directorList: Director[] = JSON.parse(directors);
 
@@ -31,15 +30,12 @@ export class DirectorRepository {
     return directorList;
   }
 
-  create = async (directorInfo: DirectorDto) => {
-    const directors = await this.get();
-    let newId = 1;
-    // change this to reduce for practice
-    for (const existingDirector of directors) {
-      if (existingDirector.id >= newId) {
-        newId = existingDirector.id + 1;
-      }
-    }
+  create = (directorInfo: DirectorDto) => {
+    const directors = this.get();
+
+    let newId = directors.reduce((maxId, existingDirector) => {
+      return Math.max(maxId, existingDirector.id + 1);
+    }, 1);
 
     const newDirector = { id: newId, ...directorInfo };
     directors.push(newDirector);
@@ -52,8 +48,8 @@ export class DirectorRepository {
     return newDirector;
   }
 
-  edit = async (updatedDirector: DirectorDto, id: number) => {
-    const directors = await this.get();
+  edit = (updatedDirector: DirectorDto, id: number) => {
+    const directors = this.get();
     const directorIndex = directors.findIndex((director) => director.id === id);
     directors[directorIndex] = {
       ...directors[directorIndex],
@@ -68,8 +64,8 @@ export class DirectorRepository {
     return directors[directorIndex];
   }
 
-  delete = async (id: number) => {
-    const directors = await this.get();
+  delete = (id: number) => {
+    const directors = this.get();
     const updatedDirectors = directors.filter(director => director.id !== id);
 
     fs.writeFileSync(
