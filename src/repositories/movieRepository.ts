@@ -1,4 +1,3 @@
-import dotenv from "dotenv";
 import fs from "fs";
 import { injectable } from "inversify";
 import { MovieDto } from "../dtos/movies/createMovieDto";
@@ -9,7 +8,6 @@ export class MovieRepository {
   private moviesFilePath: string;
 
   constructor() {
-    dotenv.config();
     this.moviesFilePath = process.env.DB_CONNECTION_MOVIES as string
   }
 
@@ -29,13 +27,9 @@ export class MovieRepository {
   create = async (movieInfo: MovieDto) => {
     const movies = await this.get();
 
-    let newId = 1;
-    // practice reduce here aswell 
-    for (const existingMovie of movies) {
-      if (existingMovie.id >= newId) {
-        newId = existingMovie.id + 1;
-      }
-    }
+    let newId = movies.reduce((maxId, existingMovie) => {
+      return Math.max(maxId, existingMovie.id + 1);
+    }, 1);
 
     const newMovie = { id: newId, ...movieInfo };
     movies.push(newMovie);

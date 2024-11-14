@@ -1,4 +1,3 @@
-import dotenv from "dotenv";
 import fs from "fs";
 import { injectable } from "inversify";
 import { DirectorDto } from "../dtos/directors/createDirectorDto";
@@ -9,7 +8,6 @@ export class DirectorRepository {
   private directorsFilePath: string;
 
   constructor() {
-    dotenv.config();
     this.directorsFilePath = process.env.DB_CONNECTION_DIRECTORS as string
   }
 

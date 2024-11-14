@@ -1,17 +1,18 @@
-import cors from 'cors';
+import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
-import {  ControllerType } from './dtos/controllerDto';
+import { ControllerType } from "./dtos/controllerDto";
 import { errorHandler, loggerHandler } from "./middlewares";
+import { containerInitializer } from "./containerInitializer";
 
 class ExpressApp {
   private app: express.Application;
   private port: number;
+  private controllers: ControllerType[];
 
-  constructor(
-    private controllers: ControllerType[]
-  ) {
+  constructor() {
     dotenv.config();
+    this.controllers = containerInitializer();
 
     this.app = express();
     this.port = Number(process.env.PORT as string) || 3000;
@@ -32,8 +33,8 @@ class ExpressApp {
       res.send("Hello World!");
     });
 
-    this.controllers.forEach(controller => {
-      this.app.use(controller.basePath, controller.router);
+    this.controllers.forEach((controller) => {
+      this.app.use(controller.basePath, controller.router)
     });
   }
 

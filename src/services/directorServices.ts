@@ -9,7 +9,7 @@ export class DirectorService {
     @inject(DirectorRepository) private directorRepository: DirectorRepository
   ) { }
 
-  get(searchQuery?: string) { // unnecessary asyncs 
+  get(searchQuery?: string) {
     return this.directorRepository.get(searchQuery);
   }
 
