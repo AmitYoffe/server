@@ -23,9 +23,9 @@ class ExpressApp {
 
   private initializeMiddleware() {
     this.app.use(express.json());
-    this.app.use(errorHandler); // check if this should have been at the end of the chain
     this.app.use(cors());
     this.app.use(loggerHandler);
+    this.app.use(errorHandler);
   }
 
   private initializeRoutes() {
