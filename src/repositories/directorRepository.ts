@@ -11,9 +11,8 @@ export class DirectorRepository {
     this.directorsFilePath = process.env.DB_CONNECTION_DIRECTORS as string
   }
 
-  // arrow funcs shouldn't be in methods
   // read about search query dto / search objects
-  get = (searchQuery?: string) => {
+  get(searchQuery?: string) {
     const directors = fs.readFileSync(this.directorsFilePath, "utf-8");
     const directorList: Director[] = JSON.parse(directors);
 
@@ -28,7 +27,7 @@ export class DirectorRepository {
     return directorList;
   }
 
-  create = (directorInfo: DirectorDto) => {
+  create(directorInfo: DirectorDto) {
     const directors = this.get();
 
     let newId = directors.reduce((maxId, existingDirector) => {
@@ -46,7 +45,7 @@ export class DirectorRepository {
     return newDirector;
   }
 
-  edit = (updatedDirector: DirectorDto, id: number) => {
+  edit(updatedDirector: DirectorDto, id: number) {
     const directors = this.get();
     const directorIndex = directors.findIndex((director) => director.id === id);
     directors[directorIndex] = {
@@ -62,7 +61,7 @@ export class DirectorRepository {
     return directors[directorIndex];
   }
 
-  delete = (id: number) => {
+  delete(id: number) {
     const directors = this.get();
     const updatedDirectors = directors.filter(director => director.id !== id);
 

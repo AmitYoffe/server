@@ -11,7 +11,7 @@ export class MovieRepository {
     this.moviesFilePath = process.env.DB_CONNECTION_MOVIES as string
   }
 
-  get = async (searchQuery?: string) => {
+  async get(searchQuery?: string) {
     const movies = fs.readFileSync(this.moviesFilePath, "utf-8");
     const movieList: Movie[] = JSON.parse(movies);
 
@@ -24,7 +24,7 @@ export class MovieRepository {
     return movieList;
   };
 
-  create = async (movieInfo: MovieDto) => {
+  async create(movieInfo: MovieDto) {
     const movies = await this.get();
 
     let newId = movies.reduce((maxId, existingMovie) => {
@@ -42,7 +42,7 @@ export class MovieRepository {
     return newMovie;
   };
 
-  edit = async (updatedMovie: MovieDto, id: number) => {
+  async edit(updatedMovie: MovieDto, id: number) {
     const movies = await this.get();
     const movieIndex = movies.findIndex((movie) => movie.id === id);
     movies[movieIndex] = { ...movies[movieIndex], ...updatedMovie };
@@ -55,7 +55,7 @@ export class MovieRepository {
     return movies[movieIndex];
   };
 
-  delete = async (id: number) => {
+  async delete(id: number) {
     const movies = await this.get();
     const updatedMovies = movies.filter(movie => movie.id !== id);
 
