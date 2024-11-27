@@ -11,7 +11,6 @@ export class DirectorRepository {
     this.directorsFilePath = process.env.DB_CONNECTION_DIRECTORS as string
   }
 
-  // read about search query dto / search objects
   get(searchQuery?: string) {
     const directors = fs.readFileSync(this.directorsFilePath, "utf-8");
     const directorList: Director[] = JSON.parse(directors);
